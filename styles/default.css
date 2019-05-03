@@ -236,7 +236,10 @@ ul.contact li a:before
 
 .title
 {
-	margin-bottom: 3em;
+	margin-bottom: 1em;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
 }
 
 .title h2
@@ -270,13 +273,9 @@ ul.contact li a:before
 #logo h1
 {
 	display: block;
-	margin-bottom: 0.20em;
+	bottom: 0.20em;
 	padding: 0.20em 0.9em;
 	font-size: 3.5em;
-}
-
-#logo a
-{
 	text-decoration: none;
 	color: #FFF;
 }
@@ -360,7 +359,7 @@ ul.contact li a:before
 {
 	overflow: hidden;
 	width: 1000px;
-	padding: 6em 100px 0em 100px;
+	padding: 2em 100px 2em 100px;
 	text-align: center;
 }
 
@@ -557,7 +556,7 @@ ul.contact li a:before
 {
 	float: left;
 	width: 320px;
-	padding: 80px 40px 80px 40px;
+	padding: 40px 40px 40px 40px;
 }
 
 #three-column .title
@@ -625,4 +624,10 @@ ul.tools li a:before
 {
 	font-size: 3em;
 	border: none;
+}
+
+#benefit-title
+{
+	margin-top: 1em;
+	margin-bottom: 0;
 }

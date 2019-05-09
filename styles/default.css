@@ -116,7 +116,7 @@ ul.contact li a:before
 
 #header-wrapper
 {
-	overflow: hidden;
+	overflow: visible;
 	background-image: url("images/waterpolo.jpg");
 }
 
@@ -191,7 +191,6 @@ ul.contact li a:before
 
 .wrapper
 {
-	overflow: hidden;
 	padding: 0em 0em 5em 0em;
 	background: #FFF;
 }
@@ -233,7 +232,6 @@ ul.contact li a:before
 #copyright
 {
 	background: #2056ac;
-	overflow: hidden;
 	padding: 5em 0em;
 	border-top: 20px solid rgba(255,255,255,0.08);
 	text-align: center;
@@ -339,7 +337,6 @@ ul.contact li a:before
 
 #welcome
 {
-	overflow: hidden;
 	width: 1000px;
 	padding: 2em 100px 2em 100px;
 	text-align: center;

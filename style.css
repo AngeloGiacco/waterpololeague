@@ -178,12 +178,12 @@ header .toggle-menu{
     background-repeat: no-repeat;
     background-position: center;
     height: 100vh;
+
     color: #fff;
     overflow: hidden;
     position: relative;
 }
 
-}
 .splash .container{
     position: relative;
     top: 48%;
@@ -197,7 +197,26 @@ header .toggle-menu{
 .overview{
     text-align: center;
 }
-.overview > div > div{
+.overview4 > div > div{
+    float: left;
+    width: 25%;
+    padding: 0 40px 0 40px;
+}
+
+.overview4 > div > div > img,
+.overview4 > div > p{
+    margin-bottom: 20px;
+}
+
+.overview4 > div > div > a:hover{
+    background: #fbc93d;
+}
+
+.pricing > div > div > a:hover{
+    background: #555555;
+}
+
+.overview3 > div > div{
     float: left;
     width: 33%;
     padding: 0 40px 0 40px;
@@ -216,7 +235,7 @@ header .toggle-menu{
     margin-bottom: 0;
 }
 
-.feature.greybg{
+.greybg{
     background: #f6f6f6;
 }
 .feature{

@@ -197,6 +197,7 @@ ul.contact li a:before
 
 #footer
 {
+	width: 100%;
 	overflow: hidden;
 	padding: 5em 0em;
 	background: #E3F0F7;
@@ -208,7 +209,7 @@ ul.contact li a:before
 #footer .fbox3
 {
 	float: left;
-	width: 320px;
+	width: 26%;
 	padding: 0px 40px 0px 40px;
 }
 

@@ -102,6 +102,10 @@ section{
     cursor: pointer;
 }
 
+.contact a {
+  cursor:pointer;
+}
+
 #teambtn{
   color:#000;
   border-color: #000;
@@ -331,7 +335,7 @@ header .toggle-menu{
   right:10px;
 }
 
-.contact{
+.contact, .login{
     background: #fbc93d;
     position: relative;
     overflow: hidden;
@@ -475,6 +479,12 @@ footer .social a:hover{
     color: #fff;
 }
 
+@media (max-width: 1050px) {
+  #teams img{
+    display: none;
+  }
+}
+
 @media (max-width: 800px){
     section{
         padding: 80px 10px;
@@ -532,8 +542,6 @@ footer .social a:hover{
     .overview > div > div{
         float: none;
         width: 100%;
-        margin-bottom: 40px;
-        padding: 0;
     }
     .overview > div > div:last-child{
         margin-bottom: 0;

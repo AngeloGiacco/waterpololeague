@@ -3,15 +3,6 @@ body {
   padding-bottom: 3rem;
   color: #5a5a5a;
 }
-.pic > .backg >.caption > h1,
-.pic > .backg >.caption > p {
-  z-index: 11;
-}
-.pic {
-  margin-bottom: 4rem;
-  height: 100vh;
-  background-image: url("styles/images/waterpolo.jpg");
-}
 #overview .fa{
   display: inline-block;
   font-size: 50px;
@@ -77,4 +68,3 @@ body {
     margin-top: 7rem;
   }
 }
-.

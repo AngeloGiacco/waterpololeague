@@ -40,11 +40,17 @@
     </header>
 
     <main role="main" height = "100%">
-      <div class="pic">
-        <img class="image-fluid active" src="styles/images/waterpolo.jpg" alt="Water Polo">
-        <div class = "caption" width = "80%" class="text-left" style = "margin-bottom:50px;">
-          <h1 style = "font-size: 80px; font-weight:1100; color: #fbc93d;">EMIS Water Polo</h1>
-          <p style = "font-size: 38px; color: #000">The water polo league for East Midlands Independent Schools</p>
+      <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img class="img-fluid" src="styles/images/waterpolo.jpg" alt="Water Polo">
+            <div class="container">
+              <div class="carousel-caption text-left" height="40rem">
+                <h1>EMIS Water Polo</h1>
+                <p>The water polo league for East Midlands Independent Schools</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

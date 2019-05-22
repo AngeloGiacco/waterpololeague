@@ -1,0 +1,1 @@
+CREATE TABLE `2872791_emiswaterpolo`.`team` ( `teamID` INT NOT NULL AUTO_INCREMENT , `schoolID` INT NOT NULL , `coachID` INT NOT NULL ,`gamesPlayed` INT NOT NULL , `wins` INT NOT NULL , `draws` INT NOT NULL, `losses` INT NOT NULL , `teamSuffix` TEXT NOT NULL , PRIMARY KEY(`teamID`)) ENGINE = InnoDB;

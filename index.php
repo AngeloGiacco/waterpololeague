@@ -137,7 +137,7 @@
 
 
       <footer class="container">
-        <p class="float-right"><a href="#">Back to top</a></p>
+        <p class="float-right"><a href="contact.html">contact us</a></p>
         <p>Made by &copy;AngeloGiacco
         <a style = "font-size: 40px; margin-right: 20px; margin-left:10px" href="https://twitter.com/giaccoangelo" target="_blank"><i class="fa fa-twitter"></i></a>
         <a style = "font-size: 40px" href="https://www.linkedin.com/in/angelo-giacco-450b2017a/" target="_blank"><i class="fa fa-linkedin"></i></a></p>

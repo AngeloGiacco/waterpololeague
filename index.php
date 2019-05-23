@@ -19,7 +19,8 @@
     <header>
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a style = "color: #fbc93d" class="navbar-brand" href="#">EMIS Water Polo</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -40,7 +41,7 @@
     </header>
 
     <main role="main" height = "100%">
-      <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <div height = "50rem" id="myCarousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
             <img class="img-fluid" src="styles/images/waterpolo.jpg" alt="Water Polo">

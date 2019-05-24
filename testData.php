@@ -8,10 +8,10 @@
 
   $name_lst = array("angelo","bob","cameron","david","emilio","frank","geronimo","harry","ito","frank");
   $team_name_lst = array("oundle","stamford","uppingham");
-  $games_played_lst = array(3,2,3)
+  $games_played_lst = array(3,2,3);
   $wins_lst = array(2,0,1);
   $draws_lst = array(1,0,1);
-  $loss_lst = array(0,2,1)
+  $loss_lst = array(0,2,1);
   $player_count = 0;
   $team_count = 0;
   $player_total = 9;
@@ -68,7 +68,7 @@
     $stmt->execute();
 
     //create the teams
-    $stmt = $conn->prepare("INSERT INTO teams VALUES (:id,:sid,:cid,:gamesPlayed,:wins,:draws,:losses,:teamSuffix)")
+    $stmt = $conn->prepare("INSERT INTO teams VALUES (:id,:sid,:cid,:gamesPlayed,:wins,:draws,:losses,:teamSuffix)");
     $stmt->bindParam(':id',$team_count);
     $stmt->bindParam(':sid',$team_count);//the school ID is defined to be the team count so no need to query
     $stmt->bindParam(':cid',$team_count);//the coach ID is defined to be the team count so no need to query
@@ -81,5 +81,5 @@
       $stmt->bindParam(':teamSuffix','');
     }
     $stmt->execute();
-    $team_count = $team_count + 1
+    $team_count = $team_count + 1;
   }

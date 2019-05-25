@@ -144,26 +144,28 @@ while ($result_count < 4) {
   $stmt = $conn->prepare("INSERT INTO results VALUES (null,:hID,:aID,:hS,:awayS,:hgi,:agi,:hq1,:hq2,:hq3,:hq4,:aq1,:aq2,:aq3,:aq4,:d,:sT,:motmHID,:motmAID)");
   $stmt->bindParam(':hid',$team_indexes[$result_count*2]);
   $stmt->bindParam(':aid',$team_indexes[($result_count*2)+1]);
-  $stmt->bindParam(':hid',$score_lst[$result_count*2]);
-  $stmt->bindParam(':hid',$team_indexes[($result_count*2)+1]);
+  $stmt->bindParam(':hS',$score_lst[$result_count*2]);
+  $stmt->bindParam(':awayS',$score_lst[($result_count*2)+1]);
   $homeGoalInfo = array();
   $goal_count = 0;
-  while ($goal_count < $team_indexes[$result_count*2]) {
+  while ($goal_count < $score_lst[$result_count*2]) {
     $possible_indexes = array(1,2,3,4,5,6);
     $randIndex = array_rand($possible_indexes, 2);
     $goalScorer = $team_indexes[$result_count*2] * 10 + $possible_indexes[$randIndex[0]];
     $assister = $team_indexes[$result_count*2] * 10 + $possible_indexes[$randIndex[1]];
     array_push($homeGoalInfo,$goalScorer.":".$assister);
+    $goal_count = $goal_count + 1
   }
   $stmt->bindParam(':hgi',implode($homeGoalInfo,";"));
   $awayGoalInfo = array();
   $goal_count = 0;
-  while ($goal_count < $team_indexes[($result_count*2)+1]) {
+  while ($goal_count < $score_lst[($result_count*2)+1]) {
     $possible_indexes = array(1,2,3,4,5,6);
     $randIndex = array_rand($possible_indexes, 2);
     $goalScorer = $team_indexes[($result_count*2)+1] * 10 + $possible_indexes[$randIndex[0]];
     $assister = $team_indexes[($result_count*2)+1] * 10 + $possible_indexes[$randIndex[1]];
     array_push($homeGoalInfo,$goalScorer.":".$assister);
+    $goal_count = $goal_count + 1
   }
   $stmt->bindParam(':agi',implode($awayGoalInfo,";"));
   $baseHome = $team_indexes[($result_count*2)] * 10

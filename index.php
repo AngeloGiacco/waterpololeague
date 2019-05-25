@@ -60,17 +60,20 @@
           <div class="col-lg-4">
             <i class="fa fa-fire"></i>
             <h2>Efficiency</h2>
-            <p>Coaches can spend less time writing emails and focus on the most important thing: coaching!</p>
+            <p>Coaches can spend less time writing emails and
+               focus on the most important thing: coaching!</p>
           </div>
           <div class="col-lg-4">
             <i class="fa fa-mobile"></i>
             <h2>Tracking</h2>
-            <p>Anyone can view the league table or a players stats! Viewing player stats is a great benefit for any coach.</p>
+            <p>Anyone can view the league table or a players stats!
+               Viewing player stats is a great benefit for any coach.</p>
           </div>
           <div class="col-lg-4">
             <i class="fa fa-users"></i>
             <h2>User-friendly</h2>
-            <p>This website is simpler to use than the legacy system used at Oundle school which will make life easier.</p>
+            <p>This website is simpler to use than the legacy system
+              used at Oundle school which will make life easier.</p>
           </div>
         </div>
 

@@ -32,6 +32,16 @@ body {
   top: 2rem;
   position: absolute;
 }
+.overview .fa{
+    display: inline-block;
+    font-size: 50px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    background: #f6f6f6;
+    margin-bottom: 20px;
+    padding-top: 25px;
+}
 .marketing .col-lg-4 {
   margin-bottom: 1.5rem;
   text-align: center;
@@ -65,14 +75,4 @@ body {
   .featurette-heading {
     margin-top: 7rem;
   }
-}
-.overview .fa{
-    display: inline-block;
-    font-size: 50px;
-    width: 100px;
-    height: 100px;
-    border-radius: 50px;
-    background: #f6f6f6;
-    margin-bottom: 20px;
-    padding-top: 25px;
 }

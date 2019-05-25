@@ -169,9 +169,9 @@ while ($result_count < 4) {
   }
   $stmt->bindParam(':agi',implode($awayGoalInfo,";"));
   $baseHome = $team_indexes[($result_count*2)] * 10
-  $indexesHome = array($base+0,$base+1,$base+2,$base+3,$base+4,$base+5,$base+6);
+  $indexesHome = array($baseHome+0,$baseHome+1,$baseHome+2,$baseHome+3,$baseHome+4,$baseHome+5,$baseHome+6);
   $baseAway = $team_indexes[($result_count*2)+1] * 10
-  $indexesAway = array($base+0,$base+1,$base+2,$base+3,$base+4,$base+5,$base+6);
+  $indexesAway = array($baseAway+0,$baseAway+1,$baseAway+2,$baseAway+3,$baseAway+4,$baseAway+5,v+6);
   foreach(array(':hq1',':hq2',':hq3',':hq4') as $param) {
     $stmt->bindParam($param,implode($indexesHome,","));
   }
@@ -179,7 +179,7 @@ while ($result_count < 4) {
     $stmt->bindParam($param,implode($indexesAway,","));
   }
   $start = strtotime("01 January 2019");
-   $end = strtotime("30 June 2019");
+  $end = strtotime("30 June 2019");
   $timestamp = mt_rand($start, $end);
   $stmt->bindParam(':d',date("d-M-Y", $timestamp));
   $stmt->bindParam(':sT','13:45');

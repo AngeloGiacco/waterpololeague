@@ -14,20 +14,38 @@ $draws_lst = array(1,0,1);
 $loss_lst = array(0,2,1);
 $player_count = 0;
 $team_count = 0;
-$player_total = 9;
+$player_total = 10;
 $team_total = 3;
+
+//delete existing coaches
+$stmt = $conn->prepare("DELETE FROM coaches");
+$stmt->execute();
+
+//delete the existing schools
+$stmt = $conn->prepare("DELETE FROM school");
+$stmt->execute();
+
+$stmt = $conn->prepare("DELETE FROM players");
+$stmt->execute();
+
+$stmt = $conn->prepare("DELETE FROM results");
+$stmt->execute();
+
+$stmt = $conn->prepare("DELETE FROM team");
+$stmt->execute();
+
+$stmt = $conn->prepare("DELETE FROM season");
+$stmt->execute();
+
+
+
 while ($team_count < $team_total) {
   //coaches
-
-  //delete existing coaches
-  $stmt = $conn->prepare("DELETE FROM coaches");
-  $stmt->execute();
-
   //create the coaches
   $stmt = $conn->prepare("INSERT INTO coaches VALUES (:id,:forename, :surname,:email,'blabla','')");
   $forename = $team_name_lst[$team_count]."coachforename";
   $surname = $team_name_lst[$team_count]."coachsurname";
-  $email = "coach@".$team_name_lst[0].".com";
+  $email = "coach@".$team_name_lst[$team_count].".com";
   $stmt->bindParam(':id',$team_count);
   $stmt->bindParam(':forename',$forename);
   $stmt->bindParam(':surname',$surname);
@@ -35,24 +53,19 @@ while ($team_count < $team_total) {
   $stmt->execute();
 
   //schools
-
-  //delete the existing schools
-  $stmt = $conn->prepare("DELETE FROM schools");
-  $stmt->execute();
-
   //create the schools
   $name = $team_name_lst[$team_count];
   $logo = $name.".jpg";
   if ($team_count == 0) {
-    $pl = 0;
+    $pl = 1;
     $pllink = "packedlunch.dx.am";
   } else {
-    $pl = 1;
+    $pl = 0;
     $pllink = "";
   }
   $long = $team_count * 10;
   $lat = $team_count * 10;
-  $stmt = $conn->prepare("INSERT INTO schools VALUES (:id,:name,:logo,:pl,:pllink,:long,:lat)");
+  $stmt = $conn->prepare("INSERT INTO school VALUES (:id,:name,:logo,:pl,:pllink,:long,:lat)");
   $stmt->bindParam(':id',$team_count);
   $stmt->bindParam(':name',$name);
   $stmt->bindParam(':logo',$logo);
@@ -63,12 +76,9 @@ while ($team_count < $team_total) {
   $stmt->execute();
 
   //teams
-  //delete existing teams
-  $stmt = $conn->prepare("DELETE FROM teams");
-  $stmt->execute();
 
   //create the teams
-  $stmt = $conn->prepare("INSERT INTO teams VALUES (:id,:sid,:cid,:gamesPlayed,:wins,:draws,:losses,:teamSuffix)");
+  $stmt = $conn->prepare("INSERT INTO team VALUES (:id,:sid,:cid,:gamesPlayed,:wins,:draws,:losses,:teamSuffix)");
   $stmt->bindParam(':id',$team_count);
   $stmt->bindParam(':sid',$team_count);//the school ID is defined to be the team count so no need to query
   $stmt->bindParam(':cid',$team_count);//the coach ID is defined to be the team count so no need to query
@@ -81,5 +91,12 @@ while ($team_count < $team_total) {
     $stmt->bindParam(':teamSuffix','');
   }
   $stmt->execute();
+
+  while ($player_count < $player_total) {
+    $stmt = $conn->prepare("INSERT INTO team VALUES (null,:f,:s,:e,:tid,:ac,:ca,:pn,:gol,:ass,:mp,:motm,:pass,' ',:hatn)");
+
+  }
+  $player_count = 0;
+
   $team_count = $team_count + 1;
 }

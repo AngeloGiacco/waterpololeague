@@ -42,13 +42,14 @@ $stmt->execute();
 while ($team_count < $team_total) {
   //coaches
   //create the coaches
-  $stmt = $conn->prepare("INSERT INTO coaches VALUES (:id,:forename, :surname,:email,'blabla','')");
+  $stmt = $conn->prepare("INSERT INTO coaches VALUES (:id,:forename, :surname,:email,:pass,'')");
   $forename = $team_name_lst[$team_count]."coachforename";
   $surname = $team_name_lst[$team_count]."coachsurname";
   $email = "coach@".$team_name_lst[$team_count].".com";
   $stmt->bindParam(':id',$team_count);
   $stmt->bindParam(':forename',$forename);
   $stmt->bindParam(':surname',$surname);
+  $stmt->bindParam(':pass',password_hash('coachpassword',PASSWORD_BCRYPT))
   $stmt->bindParam(':email',$email);
   $stmt->execute();
 
@@ -93,10 +94,96 @@ while ($team_count < $team_total) {
   $stmt->execute();
 
   while ($player_count < $player_total) {
-    $stmt = $conn->prepare("INSERT INTO team VALUES (null,:f,:s,:e,:tid,:ac,:ca,:pn,:gol,:ass,:mp,:motm,:pass,' ',:hatn)");
+    $stmt = $conn->prepare("INSERT INTO players VALUES (null,:f,:s,:e,:tid,:ac,:ca,:pn,:gol,:ass,:mp,:motm,:pass,' ',:hatn)");
+    $stmt->bindParam(':f',$name_lst[$player_count]);
+    $stmt->bindParam(':s',$team_name_lst[$team_count]);
+    $stmt->bindParam(':e',$team_name_lst[$team_count]."@".$name_lst[$player_count].".com");
+    $stmt->bindParam(':tid',$team_count);
+    if ($player_count == 9) {
+      $stmt->bindParam(':ac',0);
+      $stmt->bindParam(':ca',0);
+    }else if ($player_count == 0){
+      $stmt->bindParam(':ac',1);
+      $stmt->bindParam(':ca',1);
+    } else {
+      $stmt->bindParam(':ac',1);
+      $stmt->bindParam(':ca',0);
+    }
+    $stmt->bindParam(':pn',$player_count);
+    $stmt->bindParam(':gol',0);
+    $stmt->bindParam(':ass',0);
+    $stmt->bindParam(':mp',0);
+    $stmt->bindParam(':motm',0)
+    $stmt->bindParam(':pass',password_hash('playerpassword',PASSWORD_BCRYPT));
+    $stmt->bindParam(':hatn',$player_count);
+    $stmt->execute();
 
+    $player_count = $player_count + 1
   }
   $player_count = 0;
 
   $team_count = $team_count + 1;
+}
+
+$stmt = $conn->prepare("INSERT INTO seasons VALUES (null,:wid,:pOun,:pBSS,:pUpp,:pSta,:motmAwardID,:goalAwardID,:assistAwardID,:pMID)");
+$stmt->bindParam(':wid',0);
+$stmt->bindParam(':pOun',6);
+$stmt->bindParam(':pBSS',0);
+$stmt->bindParam(':pUpp',3);
+$stmt->bindParam(':pSta',0);
+$stmt->bindParam(':motmAwardID',11);
+$stmt->bindParam(':goalAwardID',3);
+$stmt->bindParam(':assistAwardID',3);
+$stmt->bindParam(':pMID',8);
+$stmt->execute();
+
+$result_count = 0;
+$team_indexes = array(0,2,1,0,1,2,0,2);
+$score_lst = array(5,2,2,4,3,4,3,3);
+while ($result_count < 4) {
+  $stmt = $conn->prepare("INSERT INTO results VALUES (null,:hID,:aID,:hS,:awayS,:hgi,:agi,:hq1,:hq2,:hq3,:hq4,:aq1,:aq2,:aq3,:aq4,:d,:sT,:motmHID,:motmAID)");
+  $stmt->bindParam(':hid',$team_indexes[$result_count*2]);
+  $stmt->bindParam(':aid',$team_indexes[($result_count*2)+1]);
+  $stmt->bindParam(':hid',$score_lst[$result_count*2]);
+  $stmt->bindParam(':hid',$team_indexes[($result_count*2)+1]);
+  $homeGoalInfo = array();
+  $goal_count = 0;
+  while ($goal_count < $team_indexes[$result_count*2]) {
+    $possible_indexes = array(1,2,3,4,5,6);
+    $randIndex = array_rand($possible_indexes, 2);
+    $goalScorer = $team_indexes[$result_count*2] * 10 + $possible_indexes[$randIndex[0]];
+    $assister = $team_indexes[$result_count*2] * 10 + $possible_indexes[$randIndex[1]];
+    array_push($homeGoalInfo,$goalScorer.":".$assister);
+  }
+  $stmt->bindParam(':hgi',implode($homeGoalInfo,";"));
+  $awayGoalInfo = array();
+  $goal_count = 0;
+  while ($goal_count < $team_indexes[($result_count*2)+1]) {
+    $possible_indexes = array(1,2,3,4,5,6);
+    $randIndex = array_rand($possible_indexes, 2);
+    $goalScorer = $team_indexes[($result_count*2)+1] * 10 + $possible_indexes[$randIndex[0]];
+    $assister = $team_indexes[($result_count*2)+1] * 10 + $possible_indexes[$randIndex[1]];
+    array_push($homeGoalInfo,$goalScorer.":".$assister);
+  }
+  $stmt->bindParam(':agi',implode($awayGoalInfo,";"));
+  $baseHome = $team_indexes[($result_count*2)] * 10
+  $indexesHome = array($base+0,$base+1,$base+2,$base+3,$base+4,$base+5,$base+6);
+  $baseAway = $team_indexes[($result_count*2)+1] * 10
+  $indexesAway = array($base+0,$base+1,$base+2,$base+3,$base+4,$base+5,$base+6);
+  foreach(array(':hq1',':hq2',':hq3',':hq4') as $param) {
+    $stmt->bindParam($param,implode($indexesHome,","));
+  }
+  foreach(array(':aq1',':aq2',':aq3',':aq4' as $param)) {
+    $stmt->bindParam($param,implode($indexesAway,","));
+  }
+  $start = strtotime("01 January 2019");
+   $end = strtotime("30 June 2019");
+  $timestamp = mt_rand($start, $end);
+  $stmt->bindParam(':d',date("d-M-Y", $timestamp));
+  $stmt->bindParam(':sT','13:45');
+  $stmt->bindParam(':motmHID',$indexesHome[array_rand($indexesHome, 1)]);
+  $stmt->bindParam(':motmAID',$indexesAway[array_rand($indexesAway, 1)]);
+  $stmt->execute();
+
+  $result_count = $result_count + 1;
 }

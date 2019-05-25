@@ -32,7 +32,7 @@ body {
   top: 2rem;
   position: absolute;
 }
-.overview .fa{
+.overview .row .col-lg-4 .fa{
     display: inline-block;
     font-size: 50px;
     width: 100px;

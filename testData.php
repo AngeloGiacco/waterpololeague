@@ -42,11 +42,10 @@ $stmt->execute();
 while ($team_count < $team_total) {
   //coaches
   //create the coaches
-  $stmt = $conn->prepare("INSERT INTO coaches VALUES (:id,:forename, :surname,:email,:pass,'')");
+  $stmt = $conn->prepare("INSERT INTO coaches VALUES ($team_count,:forename, :surname,:email,:pass,'')");
   $forename = $team_name_lst[$team_count]."coachforename";
   $surname = $team_name_lst[$team_count]."coachsurname";
   $email = "coach@".$team_name_lst[$team_count].".com";
-  $stmt->bindParam(':id',$team_count);
   $stmt->bindParam(':forename',$forename);
   $stmt->bindParam(':surname',$surname);
   $stmt->bindParam(':pass',password_hash('coachpassword',PASSWORD_BCRYPT));
@@ -66,8 +65,7 @@ while ($team_count < $team_total) {
   }
   $long = $team_count * 10;
   $lat = $team_count * 10;
-  $stmt = $conn->prepare("INSERT INTO school VALUES (:id,:name,:logo,:pl,:pllink,:long,:lat)");
-  $stmt->bindParam(':id',$team_count);
+  $stmt = $conn->prepare("INSERT INTO school VALUES ($team_count,:name,:logo,:pl,:pllink,:long,:lat)");
   $stmt->bindParam(':name',$name);
   $stmt->bindParam(':logo',$logo);
   $stmt->bindParam(':pl',$pl);
@@ -79,7 +77,7 @@ while ($team_count < $team_total) {
   //teams
 
   //create the teams
-  $stmt = $conn->prepare("INSERT INTO team VALUES (:id,:sid,:cid,:gamesPlayed,:wins,:draws,:losses,:teamSuffix)");
+  $stmt = $conn->prepare("INSERT INTO team VALUES ($team_count,:sid,:cid,:gamesPlayed,:wins,:draws,:losses,:teamSuffix)");
   //ERROR WITH PRIMARY KEYS MUST COLLECT FROM EACH TABLE
   $stmt->bindParam(':id',$team_count);
   $stmt->bindParam(':sid',$team_count);//the school ID is defined to be the team count so no need to query
@@ -98,7 +96,7 @@ while ($team_count < $team_total) {
   $stmt->execute();
 
   while ($player_count < $player_total) {
-    $stmt = $conn->prepare("INSERT INTO players VALUES (null,:f,:s,:e,:tid,:ac,:ca,:pn,:gol,:ass,:mp,:motm,:pass,' ',:hatn)");
+    $stmt = $conn->prepare("INSERT INTO players VALUES ($player_count,:f,:s,:e,:tid,:ac,:ca,:pn,:gol,:ass,:mp,:motm,:pass,' ',:hatn)");
     $stmt->bindParam(':f',$name_lst[$player_count]);
     $stmt->bindParam(':s',$team_name_lst[$team_count]);
     $stmt->bindParam(':e',$team_name_lst[$team_count]."@".$name_lst[$player_count].".com");

@@ -34,7 +34,7 @@ $stmt->execute();
 $stmt = $conn->prepare("DELETE FROM team");
 $stmt->execute();
 
-$stmt = $conn->prepare("DELETE FROM season");
+$stmt = $conn->prepare("DELETE FROM seasons");
 $stmt->execute();
 
 
@@ -80,17 +80,21 @@ while ($team_count < $team_total) {
 
   //create the teams
   $stmt = $conn->prepare("INSERT INTO team VALUES (:id,:sid,:cid,:gamesPlayed,:wins,:draws,:losses,:teamSuffix)");
+  //ERROR WITH PRIMARY KEYS MUST COLLECT FROM EACH TABLE
   $stmt->bindParam(':id',$team_count);
   $stmt->bindParam(':sid',$team_count);//the school ID is defined to be the team count so no need to query
   $stmt->bindParam(':cid',$team_count);//the coach ID is defined to be the team count so no need to query
+  $game_count = $wins_lst[$team_count] + $draws_lst[$team_count] + $loss_lst[$team_count];
+  $stmt->bindParam(':gamesPlayed',$game_count);
   $stmt->bindParam(':wins',$wins_lst[$team_count]);
   $stmt->bindParam(':draws',$draws_lst[$team_count]);
   $stmt->bindParam(':losses',$loss_lst[$team_count]);
   if ($team_count == 0){
-    $stmt->bindParam(':teamSuffix','A');
+    $ts = 'A';
   }else{
-    $stmt->bindParam(':teamSuffix','');
+    $ts = 'B';
   }
+  $stmt->bindParam(':teamSuffix',$ts);
   $stmt->execute();
 
   while ($player_count < $player_total) {

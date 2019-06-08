@@ -49,7 +49,7 @@ while ($team_count < $team_total) {
   $stmt->bindParam(':id',$team_count);
   $stmt->bindParam(':forename',$forename);
   $stmt->bindParam(':surname',$surname);
-  $stmt->bindParam(':pass',password_hash('coachpassword',PASSWORD_BCRYPT))
+  $stmt->bindParam(':pass',password_hash('coachpassword',PASSWORD_BCRYPT));
   $stmt->bindParam(':email',$email);
   $stmt->execute();
 
@@ -113,12 +113,12 @@ while ($team_count < $team_total) {
     $stmt->bindParam(':gol',0);
     $stmt->bindParam(':ass',0);
     $stmt->bindParam(':mp',0);
-    $stmt->bindParam(':motm',0)
+    $stmt->bindParam(':motm',0);
     $stmt->bindParam(':pass',password_hash('playerpassword',PASSWORD_BCRYPT));
     $stmt->bindParam(':hatn',$player_count);
     $stmt->execute();
 
-    $player_count = $player_count + 1
+    $player_count = $player_count + 1;
   }
   $player_count = 0;
 
@@ -154,7 +154,7 @@ while ($result_count < 4) {
     $goalScorer = $team_indexes[$result_count*2] * 10 + $possible_indexes[$randIndex[0]];
     $assister = $team_indexes[$result_count*2] * 10 + $possible_indexes[$randIndex[1]];
     array_push($homeGoalInfo,$goalScorer.":".$assister);
-    $goal_count = $goal_count + 1
+    $goal_count = $goal_count + 1;
   }
   $stmt->bindParam(':hgi',implode($homeGoalInfo,";"));
   $awayGoalInfo = array();
@@ -165,17 +165,17 @@ while ($result_count < 4) {
     $goalScorer = $team_indexes[($result_count*2)+1] * 10 + $possible_indexes[$randIndex[0]];
     $assister = $team_indexes[($result_count*2)+1] * 10 + $possible_indexes[$randIndex[1]];
     array_push($homeGoalInfo,$goalScorer.":".$assister);
-    $goal_count = $goal_count + 1
+    $goal_count = $goal_count + 1;
   }
   $stmt->bindParam(':agi',implode($awayGoalInfo,";"));
-  $baseHome = $team_indexes[($result_count*2)] * 10
+  $baseHome = $team_indexes[($result_count*2)] * 10;
   $indexesHome = array($baseHome+0,$baseHome+1,$baseHome+2,$baseHome+3,$baseHome+4,$baseHome+5,$baseHome+6);
-  $baseAway = $team_indexes[($result_count*2)+1] * 10
+  $baseAway = $team_indexes[($result_count*2)+1] * 10;
   $indexesAway = array($baseAway+0,$baseAway+1,$baseAway+2,$baseAway+3,$baseAway+4,$baseAway+5,v+6);
   foreach(array(':hq1',':hq2',':hq3',':hq4') as $param) {
     $stmt->bindParam($param,implode($indexesHome,","));
   }
-  foreach(array(':aq1',':aq2',':aq3',':aq4' as $param)) {
+  foreach(array(':aq1',':aq2',':aq3',':aq4') as $param) {
     $stmt->bindParam($param,implode($indexesAway,","));
   }
   $start = strtotime("01 January 2019");

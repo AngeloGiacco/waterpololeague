@@ -42,7 +42,7 @@ $stmt->execute();
 while ($team_count < $team_total) {
   //coaches
   //create the coaches
-  $stmt = $conn->prepare("INSERT INTO coaches VALUES ($team_count,:forename, :surname,:email,:pass,'')");
+  $stmt = $conn->prepare("INSERT INTO coaches VALUES (null,:forename, :surname,:email,:pass,'')");
   $forename = $team_name_lst[$team_count]."coachforename";
   $surname = $team_name_lst[$team_count]."coachsurname";
   $email = "coach@".$team_name_lst[$team_count].".com";
@@ -65,7 +65,7 @@ while ($team_count < $team_total) {
   }
   $long = $team_count * 10;
   $lat = $team_count * 10;
-  $stmt = $conn->prepare("INSERT INTO school VALUES ($team_count,:name,:logo,:pl,:pllink,:long,:lat)");
+  $stmt = $conn->prepare("INSERT INTO school VALUES (null,:name,:logo,:pl,:pllink,:long,:lat)");
   $stmt->bindParam(':name',$name);
   $stmt->bindParam(':logo',$logo);
   $stmt->bindParam(':pl',$pl);
@@ -77,11 +77,19 @@ while ($team_count < $team_total) {
   //teams
 
   //create the teams
-  $stmt = $conn->prepare("INSERT INTO team VALUES ($team_count,:sid,:cid,:gamesPlayed,:wins,:draws,:losses,:teamSuffix)");
+  //but first collect sid and cid
+  $stmt = $conn->prepare("SELECT schoolID FROM school LIMIT 1 OFFSET :offset_value");
+  $stmt->bindParam(':offset_value',$team_count);
+  $stmt->execute();
+  $schoolIDrow = $stmt->fetch(PDO::FETCH_ASSOC)['schoolID'];
+  $stmt = $conn->prepare("SELECT schoolID FROM coaches LIMIT 1 OFFSET :offset_value");
+  $stmt->bindParam(':offset_value',$team_count);
+  $stmt->execute();
+  $coachesIDrow = $stmt->fetch(PDO::FETCH_ASSOC)['coachID'];
+  $stmt = $conn->prepare("INSERT INTO team VALUES (null,:sid,:cid,:gamesPlayed,:wins,:draws,:losses,:teamSuffix)");
   //ERROR WITH PRIMARY KEYS MUST COLLECT FROM EACH TABLE
-  $stmt->bindParam(':id',$team_count);
-  $stmt->bindParam(':sid',$team_count);//the school ID is defined to be the team count so no need to query
-  $stmt->bindParam(':cid',$team_count);//the coach ID is defined to be the team count so no need to query
+  $stmt->bindParam(':sid',$schoolIDrow);
+  $stmt->bindParam(':cid',$coachesIDrow);
   $game_count = $wins_lst[$team_count] + $draws_lst[$team_count] + $loss_lst[$team_count];
   $stmt->bindParam(':gamesPlayed',$game_count);
   $stmt->bindParam(':wins',$wins_lst[$team_count]);
@@ -96,7 +104,8 @@ while ($team_count < $team_total) {
   $stmt->execute();
 
   while ($player_count < $player_total) {
-    $stmt = $conn->prepare("INSERT INTO players VALUES ($player_count,:f,:s,:e,:tid,:ac,:ca,:pn,:gol,:ass,:mp,:motm,:pass,' ',:hatn)");
+    //token does not require a value as it is generated only when a user has forgotten their password
+    $stmt = $conn->prepare("INSERT INTO players VALUES (null,:f,:s,:e,:tid,:ac,:ca,:pn,:gol,:ass,:mp,:motm,:pass,' ',:hatn)");
     $stmt->bindParam(':f',$name_lst[$player_count]);
     $stmt->bindParam(':s',$team_name_lst[$team_count]);
     $stmt->bindParam(':e',$team_name_lst[$team_count]."@".$name_lst[$player_count].".com");

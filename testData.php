@@ -78,12 +78,10 @@ while ($team_count < $team_total) {
 
   //create the teams
   //but first collect sid and cid
-  $stmt = $conn->prepare("SELECT schoolID FROM school LIMIT 1 OFFSET :offset_value");
-  $stmt->bindParam(':offset_value',$team_count);
+  $stmt = $conn->prepare("SELECT schoolID FROM school LIMIT 1 OFFSET $team_count");
   $stmt->execute();
   $schoolIDrow = $stmt->fetch(PDO::FETCH_ASSOC)['schoolID'];
-  $stmt = $conn->prepare("SELECT schoolID FROM coaches LIMIT 1 OFFSET :offset_value");
-  $stmt->bindParam(':offset_value',$team_count);
+  $stmt = $conn->prepare("SELECT coachID FROM coaches LIMIT 1 OFFSET $team_count");
   $stmt->execute();
   $coachesIDrow = $stmt->fetch(PDO::FETCH_ASSOC)['coachID'];
   $stmt = $conn->prepare("INSERT INTO team VALUES (null,:sid,:cid,:gamesPlayed,:wins,:draws,:losses,:teamSuffix)");
@@ -156,7 +154,7 @@ while ($result_count < 4) {
   $stmt->bindParam(':offset_value',$team_indexes[$result_count*2]);
   $stmt->execute();
   $hid = $stmt->fetch(PDO::FETCH_ASSOC)['schoolID'];
-  $stmt = $conn->prepare("SELECT schoolID FROM coaches LIMIT 1 OFFSET :offset_value");
+  $stmt = $conn->prepare("SELECT schoolID FROM schoolID LIMIT 1 OFFSET :offset_value");
   $stmt->bindParam(':offset_value',$team_indexes[($result_count*2)+1]);
   $stmt->execute();
   $aid = $stmt->fetch(PDO::FETCH_ASSOC)['schoolID'];

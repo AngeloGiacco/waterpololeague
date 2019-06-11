@@ -6,7 +6,7 @@ include_once("connection.php");
 //stamford 3 4 uppingham
 //oundle 3 3 uppingham
 
-$name_lst = array("angelo","bob","cameron","david","emilio","frank","geronimo","harry","ito","frank");
+$name_lst = array("angelo","bob","cameron","david","emilio","frank","geronimo","harry","ito","jimbob");
 $team_name_lst = array("oundle","stamford","uppingham");
 $games_played_lst = array(3,2,3);
 $wins_lst = array(2,0,1);
@@ -101,107 +101,155 @@ while ($team_count < $team_total) {
   $stmt->bindParam(':teamSuffix',$ts);
   $stmt->execute();
 
-  while ($player_count < $player_total) {
+
+  $stmt = $conn->prepare("SELECT teamID FROM team LIMIT 1 OFFSET $team_count");
+  $stmt->execute();
+  $teamIDrow = $stmt->fetch(PDO::FETCH_ASSOC)['teamID'];
+  while ($player_count <= sizeof($name_lst)-1 and isset($name_lst[$player_count])) {
     //token does not require a value as it is generated only when a user has forgotten their password
     $stmt = $conn->prepare("INSERT INTO players VALUES (null,:f,:s,:e,:tid,:ac,:ca,:pn,:gol,:ass,:mp,:motm,:pass,' ',:hatn)");
     $stmt->bindParam(':f',$name_lst[$player_count]);
     $stmt->bindParam(':s',$team_name_lst[$team_count]);
-    $stmt->bindParam(':e',$team_name_lst[$team_count]."@".$name_lst[$player_count].".com");
-    $stmt->bindParam(':tid',$team_count);
+    $email = $name_lst[$player_count]."@".$team_name_lst[$team_count].".com";
+    $stmt->bindParam(':e',$email);
+    $stmt->bindParam(':tid',$teamIDrow);
     if ($player_count == 9) {
-      $stmt->bindParam(':ac',0);
-      $stmt->bindParam(':ca',0);
+      $active = 0;
+      $captain = 0;
     }else if ($player_count == 0){
-      $stmt->bindParam(':ac',1);
-      $stmt->bindParam(':ca',1);
+      $active = 1;
+      $captain = 1;
     } else {
-      $stmt->bindParam(':ac',1);
-      $stmt->bindParam(':ca',0);
+      $active = 1;
+      $captain = 0;
     }
+    $null = 0;
+    $stmt->bindParam(':ac',$active);
+    $stmt->bindParam(':ca',$captain);
     $stmt->bindParam(':pn',$player_count);
-    $stmt->bindParam(':gol',0);
-    $stmt->bindParam(':ass',0);
-    $stmt->bindParam(':mp',0);
-    $stmt->bindParam(':motm',0);
+    $stmt->bindParam(':gol',$null);
+    $stmt->bindParam(':ass',$null);
+    $stmt->bindParam(':mp',$null);
+    $stmt->bindParam(':motm',$null);
     $stmt->bindParam(':pass',password_hash('playerpassword',PASSWORD_BCRYPT));
     $stmt->bindParam(':hatn',$player_count);
     $stmt->execute();
-
     $player_count = $player_count + 1;
+
   }
   $player_count = 0;
 
   $team_count = $team_count + 1;
 }
-
+$null = 0;
+$six = 6;
+$three = 3;
+$eleven = 11;
+$eight = 8;
+$stmt = $conn->prepare("SELECT teamID FROM team LIMIT 1 OFFSET 0");
+$stmt->execute();
+$winner = $stmt->fetch(PDO::FETCH_ASSOC)['teamID'];
+$stmt = $conn->prepare("SELECT playerID FROM players LIMIT 1 OFFSET 5");
+$stmt->execute();
+$playerID = $stmt->fetch(PDO::FETCH_ASSOC)['playerID'];
+$playerID2 = $playerID + 1;
 $stmt = $conn->prepare("INSERT INTO seasons VALUES (null,:wid,:pOun,:pBSS,:pUpp,:pSta,:motmAwardID,:goalAwardID,:assistAwardID,:pMID)");
-$stmt->bindParam(':wid',0);
-$stmt->bindParam(':pOun',6);
-$stmt->bindParam(':pBSS',0);
-$stmt->bindParam(':pUpp',3);
-$stmt->bindParam(':pSta',0);
-$stmt->bindParam(':motmAwardID',11);
-$stmt->bindParam(':goalAwardID',3);
-$stmt->bindParam(':assistAwardID',3);
-$stmt->bindParam(':pMID',8);
+$stmt->bindParam(':wid',$winner);
+$stmt->bindParam(':pOun',$six);
+$stmt->bindParam(':pBSS',$null);
+$stmt->bindParam(':pUpp',$three);
+$stmt->bindParam(':pSta',$null);
+$stmt->bindParam(':motmAwardID',$playerID);
+$stmt->bindParam(':goalAwardID',$playerID2);
+$stmt->bindParam(':assistAwardID',$playerID);
+$stmt->bindParam(':pMID',$playerID2);
 $stmt->execute();
 
 $result_count = 0;
 $team_indexes = array(0,2,1,0,1,2,0,2);
 $score_lst = array(5,2,2,4,3,4,3,3);
 while ($result_count < 4) {
-  $stmt = $conn->prepare("SELECT schoolID FROM school LIMIT 1 OFFSET :offset_value");
-  $stmt->bindParam(':offset_value',$team_indexes[$result_count*2]);
+  $index = $result_count*2;
+  $stmt = $conn->prepare("SELECT schoolID FROM school LIMIT 1 OFFSET $team_indexes[$index]");
   $stmt->execute();
   $hid = $stmt->fetch(PDO::FETCH_ASSOC)['schoolID'];
-  $stmt = $conn->prepare("SELECT schoolID FROM schoolID LIMIT 1 OFFSET :offset_value");
-  $stmt->bindParam(':offset_value',$team_indexes[($result_count*2)+1]);
+  $index = ($result_count*2)+1;
+  $stmt = $conn->prepare("SELECT schoolID FROM school LIMIT 1 OFFSET $team_indexes[$index]");
   $stmt->execute();
   $aid = $stmt->fetch(PDO::FETCH_ASSOC)['schoolID'];
+
+  $stmt = $conn->prepare("SELECT teamID FROM team WHERE schoolID = :schoolID LIMIT 1");
+  $stmt->bindParam(':schoolID',$hid);
+  $stmt->execute();
+  $homeTeamID = $stmt->fetch(PDO::FETCH_ASSOC)['teamID'];
+  $stmt = $conn->prepare("SELECT playerID FROM players WHERE teamID = :id LIMIT 1");
+  $stmt->bindParam(':id',$homeTeamID);
+  $stmt->execute();
+  $baseHome = $stmt->fetch(PDO::FETCH_ASSOC)['playerID'];
+  $stmt = $conn->prepare("SELECT teamID FROM team WHERE schoolID = :schoolID LIMIT 1");
+  $stmt->bindParam(':schoolID',$aid);
+  $stmt->execute();
+  $awayTeamID = $stmt->fetch(PDO::FETCH_ASSOC)['teamID'];
+  $stmt = $conn->prepare("SELECT playerID FROM players WHERE teamID = :id LIMIT 1");
+  $stmt->bindParam(':id',$awayTeamID);
+  $stmt->execute();
+  $baseAway = $stmt->fetch(PDO::FETCH_ASSOC)['playerID'];
+
   $stmt = $conn->prepare("INSERT INTO results VALUES (null,:hID,:aID,:hS,:awayS,:hgi,:agi,:hq1,:hq2,:hq3,:hq4,:aq1,:aq2,:aq3,:aq4,:d,:sT,:motmHID,:motmAID)");
   $stmt->bindParam(':hid',$hid);
   $stmt->bindParam(':aid',$aid);
-  $stmt->bindParam(':hS',$score_lst[$result_count*2]);
-  $stmt->bindParam(':awayS',$score_lst[($result_count*2)+1]);
+  $scoreH = $score_lst[$result_count*2];
+  $scoreA = $score_lst[($result_count*2)+1];
+  $stmt->bindParam(':hS',$scoreH);
+  $stmt->bindParam(':awayS',$scoreA);
   $homeGoalInfo = array();
   $goal_count = 0;
   while ($goal_count < $score_lst[$result_count*2]) {
     $possible_indexes = array(1,2,3,4,5,6);
     $randIndex = array_rand($possible_indexes, 2);
-    $goalScorer = $team_indexes[$result_count*2] * 10 + $possible_indexes[$randIndex[0]];
-    $assister = $team_indexes[$result_count*2] * 10 + $possible_indexes[$randIndex[1]];
+    $goalScorer = $baseHome + $possible_indexes[$randIndex[0]];
+    $assister = $baseHome + $possible_indexes[$randIndex[1]];
     array_push($homeGoalInfo,$goalScorer.":".$assister);
     $goal_count = $goal_count + 1;
   }
-  $stmt->bindParam(':hgi',implode($homeGoalInfo,";"));
+  $hgi = implode($homeGoalInfo,";");
+  $stmt->bindParam(':hgi',$hgi);
   $awayGoalInfo = array();
   $goal_count = 0;
   while ($goal_count < $score_lst[($result_count*2)+1]) {
     $possible_indexes = array(1,2,3,4,5,6);
     $randIndex = array_rand($possible_indexes, 2);
-    $goalScorer = $team_indexes[($result_count*2)+1] * 10 + $possible_indexes[$randIndex[0]];
-    $assister = $team_indexes[($result_count*2)+1] * 10 + $possible_indexes[$randIndex[1]];
+    $goalScorer = $baseAway * 10 + $possible_indexes[$randIndex[0]];
+    $assister = $baseAway + $possible_indexes[$randIndex[1]];
     array_push($homeGoalInfo,$goalScorer.":".$assister);
     $goal_count = $goal_count + 1;
   }
-  $stmt->bindParam(':agi',implode($awayGoalInfo,";"));
-  $baseHome = $team_indexes[($result_count*2)] * 10;
-  $indexesHome = array($baseHome+0,$baseHome+1,$baseHome+2,$baseHome+3,$baseHome+4,$baseHome+5,$baseHome+6);
-  $baseAway = $team_indexes[($result_count*2)+1] * 10;
-  $indexesAway = array($baseAway+0,$baseAway+1,$baseAway+2,$baseAway+3,$baseAway+4,$baseAway+5,v+6);
-  foreach(array(':hq1',':hq2',':hq3',':hq4') as $param) {
-    $stmt->bindParam($param,implode($indexesHome,","));
-  }
-  foreach(array(':aq1',':aq2',':aq3',':aq4') as $param) {
-    $stmt->bindParam($param,implode($indexesAway,","));
-  }
+  $agi = implode($awayGoalInfo,";");
+  $stmt->bindParam(':agi',$agi);
+
+  $indexesHome = array($baseHome,$baseHome+1,$baseHome+2,$baseHome+3,$baseHome+4,$baseHome+5,$baseHome+6);
+  $indexesAway = array($baseAway,$baseAway+1,$baseAway+2,$baseAway+3,$baseAway+4,$baseAway+5,$baseAway+6);
+  $implodedIndexesH = implode($indexesHome,",");
+  $implodedIndexesA = implode($indexesAway,",");
+  $stmt->bindParam(':hq1',$implodedIndexesH);
+  $stmt->bindParam(':hq2',$implodedIndexesH);
+  $stmt->bindParam(':hq3',$implodedIndexesH);
+  $stmt->bindParam(':hq4',$implodedIndexesH);
+  $stmt->bindParam(':aq1',$implodedIndexesA);
+  $stmt->bindParam(':aq2',$implodedIndexesA);
+  $stmt->bindParam(':aq3',$implodedIndexesA);
+  $stmt->bindParam(':aq4',$implodedIndexesA);
   $start = strtotime("01 January 2019");
   $end = strtotime("30 June 2019");
   $timestamp = mt_rand($start, $end);
-  $stmt->bindParam(':d',date("d-M-Y", $timestamp));
-  $stmt->bindParam(':sT','13:45');
-  $stmt->bindParam(':motmHID',$indexesHome[array_rand($indexesHome, 1)]);
-  $stmt->bindParam(':motmAID',$indexesAway[array_rand($indexesAway, 1)]);
+  $date = date("d-M-Y", $timestamp);
+  $stmt->bindParam(':d',$date);
+  $time = '13:45';
+  $stmt->bindParam(':sT',$time);
+  $motmH = $indexesHome[array_rand($indexesHome, 1)];
+  $motmA = $indexesAway[array_rand($indexesAway, 1)];
+  $stmt->bindParam(':motmHID',$motmH);
+  $stmt->bindParam(':motmAID',$motmA);
   $stmt->execute();
 
   $result_count = $result_count + 1;

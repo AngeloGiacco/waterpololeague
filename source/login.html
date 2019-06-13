@@ -55,34 +55,43 @@
         </div>
       </div>
 
-      <div class="content">
-        <h1 text-align = "center">LOGIN</h1>
+      <div style = "left: 50%; display: inline-block; text-align: center" class="content" width = "50%">
+        <h1 text-align = "center">LOGIN</h1><br>
 
-        <form method = "post" action = "authenticate.php" class = "login-form">
+        <div width = "100%" id = "login-form">
 
-          <div class="btn-group" data-toggle="buttons">
+          <form width = "100%" method = "post" action = "authenticate.php" class = "login">
 
-      			<label class="btn btn-default">
-      				<input type="radio" name = "userType" value = "player">
-      				<span class="glyphicon glyphicon-ok">player</span>
-      			</label>
+            <div class="btn-group" data-toggle="buttons">
 
-      			<label class="btn btn-warning">
-      				<input type="radio" name = "userType" value = "coach">
-      				<span class="glyphicon glyphicon-ok">coach</span>
-      			</label>
+        			<label class="btn btn-info">
+        				<input type="radio" name = "userType" value = "player">
+        				<span class="glyphicon glyphicon-ok">player</span>
+        			</label>
 
-      			<label class="btn btn-danger">
-      				<input type="radio" name = "userType" value = "admin">
-      				<span class="glyphicon glyphicon-ok">admin</span>
-      			</label>
+        			<label class="btn btn-warning">
+        				<input type="radio" name = "userType" value = "coach">
+        				<span class="glyphicon glyphicon-ok">coach</span>
+        			</label>
 
-    	    </div>
+        			<label class="btn btn-danger">
+        				<input type="radio" name = "userType" value = "admin">
+        				<span class="glyphicon glyphicon-ok">admin</span>
+        			</label>
 
-          <input class="btn btn-primary" type="submit" value="Submit">
+      	    </div>
+
+            <br><br>
+
+            <input name = "email" placeholder="enter your email" type = "text" required>
+            <input name = "pswd" type = "password" placeholder = "password" required>
+            <br><br>
+            <input class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">
 
 
-        </form>
+          </form>
+
+        </div>
 
       </div>
 

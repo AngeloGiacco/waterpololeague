@@ -1,4 +1,5 @@
 <?php
+  session_start();
   array_map("htmlspecialchars", $_POST);
   include_once("connection.php");
   try {
@@ -7,14 +8,53 @@
     $attempt = $_POST["pswd"];
     switch ($userType) {
       case "admin":
-        echo "admin";
+        if ($email == "jc2@oundleschool.org.uk" and $attempt == "julie") {
+          $_SESSION["admin"] = true;
+          $_SESSION["email"] = $email;
+          header("location : admin.html");
+        } else {
+          ?><script>
+				      alert(“incorrect email and password combination”);
+              window.location.href(“index.html”);
+            </script><?php
+        }
         break;
+
+
       case "coach":
-        echo "coach";
+        $stmt = $conn->prepare("SELECT password FROM coaches WHERE email = :email");
+        $stmt->bindParam(':email',$email);
+        $stmt->execute();
+        $hashed = $stmt—>fetch(FETCH::PDO_ASSOC)["password"];
+        if password_verify($attempt,$hashed){
+          $_SESSION["coach"] = true;
+          $_SESSION["email"] = $email;
+          header("location : coach.html");
+        } else {
+          ?><script>
+				      alert(“incorrect email and password combination”);
+              window.location.href(“index.html”);
+            </script><?php
+        }
         break;
+
+
       case "player":
-        echo "player";
-        break;
+      $stmt = $conn->prepare("SELECT password FROM players WHERE email = :email");
+      $stmt->bindParam(':email',$email);
+      $stmt->execute();
+      $hashed = $stmt—>fetch(FETCH::PDO_ASSOC)["password"];
+      if password_verify($attempt,$hashed){
+        $_SESSION["player"] = true;
+        $_SESSION["email"] = $email;
+        header("location : player.html");
+      } else {
+        ?><script>
+            alert(“incorrect email and password combination”);
+            window.location.href(“index.html”);
+          </script><?php
+      }
+      break;
     }
   $conn=null;
 }

@@ -3,7 +3,7 @@
   if (!isset($_SESSION["coach"] or $_SESSION["coach"] != true)) {
     ?><script>
         alert("unfortunately you do not have access to the coach page");
-        window.location.replace("index.html");
+        window.location.replace("index.php");
       </script><?php
   }
 ?>

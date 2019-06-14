@@ -18,7 +18,7 @@
         } else {
           ?><script>
 				      alert("incorrect email and password combination");
-              window.location.replace("index.html");
+              window.location.replace("index.php");
             </script><?php
         }
         break;
@@ -60,7 +60,7 @@
       } else {
         ?><script>
             alert("incorrect email and password combination");
-            window.location.replace("index.html");
+            window.location.replace("index.php");
           </script><?php
       }
       break;

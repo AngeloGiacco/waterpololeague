@@ -3,7 +3,7 @@
   if (!isset($_SESSION["admin"] or $_SESSION["admin"] != true)) {
     ?><script>
         alert("unfortunately you do not have access to the admin page");
-        window.location.replace("index.html");
+        window.location.replace("index.php");
       </script><?php
   }
 ?>

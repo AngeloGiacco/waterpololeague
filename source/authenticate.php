@@ -11,7 +11,7 @@
         if ($email == "jc2@oundleschool.org.uk" and $attempt == "julie") {
           $_SESSION["admin"] = true;
           $_SESSION["email"] = $email;
-          header("location : admin.html");
+          header("Location : admin.html");
         } else {
           ?><script>
 				      alert(“incorrect email and password combination”);
@@ -26,10 +26,10 @@
         $stmt->bindParam(':email',$email);
         $stmt->execute();
         $hashed = $stmt—>fetch(FETCH::PDO_ASSOC)["password"];
-        if password_verify($attempt,$hashed){
+        if (password_verify($attempt,$hashed)){
           $_SESSION["coach"] = true;
           $_SESSION["email"] = $email;
-          header("location : coach.html");
+          header("Location : coach.html");
         } else {
           ?><script>
 				      alert(“incorrect email and password combination”);
@@ -44,10 +44,10 @@
       $stmt->bindParam(':email',$email);
       $stmt->execute();
       $hashed = $stmt—>fetch(FETCH::PDO_ASSOC)["password"];
-      if password_verify($attempt,$hashed){
+      if (password_verify($attempt,$hashed)){
         $_SESSION["player"] = true;
         $_SESSION["email"] = $email;
-        header("location : player.html");
+        header("Location : player.html");
       } else {
         ?><script>
             alert(“incorrect email and password combination”);

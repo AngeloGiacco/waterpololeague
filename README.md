@@ -1,6 +1,4 @@
-[![A level coursework](https://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat-square)](https://www.ocr.org.uk/Images/170845-specification-accredited-as-level-gce-computer-science-h046.pdf)
 [![PHP](https://img.shields.io/badge/language-lots%20of%20php-success.svg)](https://www.python.org/)
-
 ![Build Failing](https://img.shields.io/badge/build-failing-critical.svg)
 
 # waterpololeaguecoursework

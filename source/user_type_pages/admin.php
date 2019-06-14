@@ -1,3 +1,12 @@
+<?php
+  session_start();
+  if (!isset($_SESSION["userType"]) or $_SESSION["userType"] !== "admin") {
+    ?><script>
+        alert("unfortunately you do not have access to the admin page");
+        window.location.replace("index.php");
+      </script><?php
+  }
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -35,7 +44,7 @@
               <a class="nav-link" href="stats.html">View Statistics</a>
             </li>
           </ul>
-          <a href = "login.html"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button></a>
+          <a href = "logout.php?logout=true"><button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button></a>
         </div>
       </nav>
     </header>
@@ -47,8 +56,8 @@
             <img class="img-fluid" src="styles/images/waterpolo.jpg" alt="Water Polo">
             <div class="container">
               <div class="carousel-caption text-left" height="40rem">
-                <h1>LOGIN to EMIS Water Polo</h1>
-                <p>Access the water polo league for East Midlands Independent Schools</p>
+                <h1>Admin Page</h1>
+                <p>The water polo league for East Midlands Independent Schools</p>
               </div>
             </div>
           </div>
@@ -56,7 +65,7 @@
       </div>
 
       <div class="content">
-        <h1 text-align = "center">LOGIN</h1>
+        <h1 text-align = "center">ADMIN</h1>
       </div>
 
 			<footer class="container">

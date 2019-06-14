@@ -76,3 +76,9 @@ body {
     margin-top: 7rem;
   }
 }
+.btn span.glyphicon {
+	opacity: 0;
+}
+.btn.active span.glyphicon {
+	opacity: 1;
+}

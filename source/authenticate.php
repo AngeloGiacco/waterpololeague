@@ -9,12 +9,12 @@
     switch ($userType) {
       case "admin":
         if ($email == "jc2@oundleschool.org.uk" and $attempt == "julie") {
-          $_SESSION["admin"] = true;
+          $_SESSION["admin"] = "true";
           $_SESSION["email"] = $email;
           ?><script>
               window.location.replace("admin.php");
             </script><?php
-          exit();
+          exit;
         } else {
           ?><script>
 				      alert("incorrect email and password combination");
@@ -28,18 +28,18 @@
         $stmt = $conn->prepare("SELECT password FROM coaches WHERE email = :email");
         $stmt->bindParam(':email',$email);
         $stmt->execute();
-        $hashed = $stmt—>fetch(FETCH::PDO_ASSOC)["password"];
+        $hashed = $stmt->fetch(PDO::FETCH_ASSOC)["password"];
         if (password_verify($attempt,$hashed)){
-          $_SESSION["coach"] = true;
+          $_SESSION["coach"] = "true";
           $_SESSION["email"] = $email;
           ?><script>
               window.location.replace("coach.php");
             </script><?php
-          exit();
+          exit;
         } else {
           ?><script>
 				      alert("incorrect email and password combination");
-              window.location.replace("coach.html");
+              window.location.replace("index.php");
             </script><?php
         }
         break;
@@ -49,14 +49,14 @@
       $stmt = $conn->prepare("SELECT password FROM players WHERE email = :email");
       $stmt->bindParam(':email',$email);
       $stmt->execute();
-      $hashed = $stmt—>fetch(FETCH::PDO_ASSOC)["password"];
+      $hashed = $stmt->fetch(PDO::FETCH_ASSOC)["password"];
       if (password_verify($attempt,$hashed)){
-        $_SESSION["player"] = true;
+        $_SESSION["player"] = "true";
         $_SESSION["email"] = $email;
         ?><script>
             window.location.replace("player.php");
           </script><?php
-        exit();
+        exit;
       } else {
         ?><script>
             alert("incorrect email and password combination");

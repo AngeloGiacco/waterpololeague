@@ -1,6 +1,6 @@
 <?php
-  $session_start();
-  if (!isset($_SESSION["coach"] or $_SESSION["coach"] != true)) {
+  session_start();
+  if (!isset($_SESSION["coach"]) or $_SESSION["coach"] !== "true") {
     ?><script>
         alert("unfortunately you do not have access to the coach page");
         window.location.replace("index.php");
@@ -44,7 +44,7 @@
               <a class="nav-link" href="stats.html">View Statistics</a>
             </li>
           </ul>
-          <a href = "login.html"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button></a>
+          <a href = "index.php"><button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button></a>
         </div>
       </nav>
     </header>

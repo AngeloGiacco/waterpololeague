@@ -9,7 +9,7 @@
     switch ($userType) {
       case "admin":
         if ($email == "jc2@oundleschool.org.uk" and $attempt == "julie") {
-          $_SESSION["admin"] = "true";
+          $_SESSION["userType"] = "admin";
           $_SESSION["email"] = $email;
           ?><script>
               window.location.replace("admin.php");
@@ -30,7 +30,7 @@
         $stmt->execute();
         $hashed = $stmt->fetch(PDO::FETCH_ASSOC)["password"];
         if (password_verify($attempt,$hashed)){
-          $_SESSION["coach"] = "true";
+          $_SESSION["userType"] = "coach";
           $_SESSION["email"] = $email;
           ?><script>
               window.location.replace("coach.php");
@@ -51,7 +51,7 @@
       $stmt->execute();
       $hashed = $stmt->fetch(PDO::FETCH_ASSOC)["password"];
       if (password_verify($attempt,$hashed)){
-        $_SESSION["player"] = "true";
+        $_SESSION["userType"] = "player";
         $_SESSION["email"] = $email;
         ?><script>
             window.location.replace("player.php");

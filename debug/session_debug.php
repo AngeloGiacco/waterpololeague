@@ -1,3 +1,7 @@
+<?php
+session_start();
+print_r($_SESSION);
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -47,52 +51,16 @@
             <img class="img-fluid" src="styles/images/waterpolo.jpg" alt="Water Polo">
             <div class="container">
               <div class="carousel-caption text-left" height="40rem">
-                <h1>Login</h1>
-                <p>Access the water polo league for East Midlands Independent Schools</p>
+                <h1>EMIS Water Polo</h1>
+                <p>The water polo league for East Midlands Independent Schools</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div style = "left: 50%; display: inline-block; text-align: center" class="content" width = "50%">
-        <h1 text-align = "center">LOGIN</h1><br>
-
-        <div width = "100%" id = "login-form">
-
-          <form width = "100%" method = "post" action = "authenticate.php" class = "login">
-
-            <div class="btn-group" data-toggle="buttons">
-
-        			<label class="btn btn-info">
-        				<input type="radio" name = "userType" value = "player">
-        				<span class="glyphicon glyphicon-ok">player</span>
-        			</label>
-
-        			<label class="btn btn-warning">
-        				<input type="radio" name = "userType" value = "coach">
-        				<span class="glyphicon glyphicon-ok">coach</span>
-        			</label>
-
-        			<label class="btn btn-danger">
-        				<input type="radio" name = "userType" value = "admin">
-        				<span class="glyphicon glyphicon-ok">admin</span>
-        			</label>
-
-      	    </div>
-
-            <br><br>
-
-            <input name = "email" placeholder="enter your email" type = "email" required>
-            <input name = "pswd" type = "password" placeholder = "password" required>
-            <br><br>
-            <input class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">
-
-
-          </form>
-
-        </div>
-
+      <div class="content">
+        <h1 text-align = "center">CONTENT</h1>
       </div>
 
 			<footer class="container">

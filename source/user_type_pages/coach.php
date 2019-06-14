@@ -1,6 +1,6 @@
 <?php
   session_start();
-  if (!isset($_SESSION["coach"]) or $_SESSION["coach"] !== "true") {
+  if (!isset($_SESSION["userType"]) or $_SESSION["userType"] !== "coach") {
     ?><script>
         alert("unfortunately you do not have access to the coach page");
         window.location.replace("index.php");
@@ -44,7 +44,7 @@
               <a class="nav-link" href="stats.html">View Statistics</a>
             </li>
           </ul>
-          <a href = "index.php"><button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button></a>
+          <a href = "logout.php?logout=true"><button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button></a>
         </div>
       </nav>
     </header>
@@ -56,7 +56,7 @@
             <img class="img-fluid" src="styles/images/waterpolo.jpg" alt="Water Polo">
             <div class="container">
               <div class="carousel-caption text-left" height="40rem">
-                <h1>EMIS Water Polo</h1>
+                <h1>Coach Page</h1>
                 <p>The water polo league for East Midlands Independent Schools</p>
               </div>
             </div>

@@ -12,7 +12,7 @@
           $_SESSION["admin"] = true;
           $_SESSION["email"] = $email;
           ?><script>
-              window.location.replace("admin.html");
+              window.location.replace("admin.php");
             </script><?php
           exit();
         } else {
@@ -33,7 +33,7 @@
           $_SESSION["coach"] = true;
           $_SESSION["email"] = $email;
           ?><script>
-              window.location.replace("admin.html");
+              window.location.replace("coach.php");
             </script><?php
           exit();
         } else {
@@ -54,7 +54,7 @@
         $_SESSION["player"] = true;
         $_SESSION["email"] = $email;
         ?><script>
-            window.location.replace("player.html");
+            window.location.replace("player.php");
           </script><?php
         exit();
       } else {

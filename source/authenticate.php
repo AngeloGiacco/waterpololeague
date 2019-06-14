@@ -11,11 +11,14 @@
         if ($email == "jc2@oundleschool.org.uk" and $attempt == "julie") {
           $_SESSION["admin"] = true;
           $_SESSION["email"] = $email;
-          header("Location : admin.html");
+          ?><script>
+              window.location.replace("admin.html");
+            </script><?php
+          exit();
         } else {
           ?><script>
-				      alert(“incorrect email and password combination”);
-              window.location.href(“index.html”);
+				      alert("incorrect email and password combination");
+              window.location.replace("index.html");
             </script><?php
         }
         break;
@@ -29,11 +32,14 @@
         if (password_verify($attempt,$hashed)){
           $_SESSION["coach"] = true;
           $_SESSION["email"] = $email;
-          header("Location : coach.html");
+          ?><script>
+              window.location.replace("admin.html");
+            </script><?php
+          exit();
         } else {
           ?><script>
-				      alert(“incorrect email and password combination”);
-              window.location.href(“index.html”);
+				      alert("incorrect email and password combination");
+              window.location.replace("coach.html");
             </script><?php
         }
         break;
@@ -47,11 +53,14 @@
       if (password_verify($attempt,$hashed)){
         $_SESSION["player"] = true;
         $_SESSION["email"] = $email;
-        header("Location : player.html");
+        ?><script>
+            window.location.replace("player.html");
+          </script><?php
+        exit();
       } else {
         ?><script>
-            alert(“incorrect email and password combination”);
-            window.location.href(“index.html”);
+            alert("incorrect email and password combination");
+            window.location.replace("index.html");
           </script><?php
       }
       break;

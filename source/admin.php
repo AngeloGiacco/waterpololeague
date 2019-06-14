@@ -1,3 +1,12 @@
+<?php
+  $session_start();
+  if (!isset($_SESSION["admin"] or $_SESSION["admin"] != true)) {
+    ?><script>
+        alert("unfortunately you do not have access to the admin page");
+        window.location.replace("index.html");
+      </script><?php
+  }
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -56,7 +65,7 @@
       </div>
 
       <div class="content">
-        <h1 text-align = "center">COACH</h1>
+        <h1 text-align = "center">ADMIN</h1>
       </div>
 
 			<footer class="container">

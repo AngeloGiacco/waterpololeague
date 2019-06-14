@@ -1,3 +1,12 @@
+<?php
+  $session_start();
+  if (!isset($_SESSION["player"] or $_SESSION["player"] != true)) {
+    ?><script>
+        alert("unfortunately you do not have access to the player page");
+        window.location.replace("index.html");
+      </script><?php
+  }
+?>
 <!doctype html>
 <html lang="en">
   <head>

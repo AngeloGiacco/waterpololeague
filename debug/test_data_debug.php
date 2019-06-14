@@ -1,10 +1,5 @@
 <?php
 include_once("connection.php");
-//games are
-//oundle 5 2 uppingham
-//stamford 2 4 oundle
-//stamford 3 4 uppingham
-//oundle 3 3 uppingham
 $name_lst = array("angelo","bob","cameron","david","emilio","frank","geronimo","harry","ito","jimbob");
 $team_name_lst = array("oundle","stamford","uppingham");
 $games_played_lst = array(3,2,3);
@@ -15,142 +10,11 @@ $player_count = 0;
 $team_count = 0;
 $player_total = 10;
 $team_total = 3;
-//delete existing coaches
-$stmt = $conn->prepare("DELETE FROM coaches");
-$stmt->execute();
-//delete the existing schools
-$stmt = $conn->prepare("DELETE FROM school");
-$stmt->execute();
-$stmt = $conn->prepare("DELETE FROM players");
-$stmt->execute();
-$stmt = $conn->prepare("DELETE FROM results");
-$stmt->execute();
-$stmt = $conn->prepare("DELETE FROM team");
-$stmt->execute();
-$stmt = $conn->prepare("DELETE FROM seasons");
-$stmt->execute();
-while ($team_count < $team_total) {
-  //coaches
-  //create the coaches
-  $stmt = $conn->prepare("INSERT INTO coaches VALUES (null,:forename, :surname,:email,:pass,'')");
-  $forename = $team_name_lst[$team_count]."coachforename";
-  $surname = $team_name_lst[$team_count]."coachsurname";
-  $email = "coach@".$team_name_lst[$team_count].".com";
-  $stmt->bindParam(':forename',$forename);
-  $stmt->bindParam(':surname',$surname);
-  $stmt->bindParam(':pass',password_hash('coachpassword',PASSWORD_BCRYPT));
-  $stmt->bindParam(':email',$email);
-  $stmt->execute();
-  //schools
-  //create the schools
-  $name = $team_name_lst[$team_count];
-  $logo = $name.".jpg";
-  if ($team_count == 0) {
-    $pl = 1;
-    $pllink = "packedlunch.dx.am";
-  } else {
-    $pl = 0;
-    $pllink = "";
-  }
-  $long = $team_count * 10;
-  $lat = $team_count * 10;
-  $stmt = $conn->prepare("INSERT INTO school VALUES (null,:name,:logo,:pl,:pllink,:long,:lat)");
-  $stmt->bindParam(':name',$name);
-  $stmt->bindParam(':logo',$logo);
-  $stmt->bindParam(':pl',$pl);
-  $stmt->bindParam(':pllink',$pllink);
-  $stmt->bindParam(':long',$long);
-  $stmt->bindParam(':lat',$lat);
-  $stmt->execute();
-  //teams
-  //create the teams
-  //but first collect sid and cid
-  $stmt = $conn->prepare("SELECT schoolID FROM school LIMIT 1 OFFSET $team_count");
-  $stmt->execute();
-  $schoolIDrow = $stmt->fetch(PDO::FETCH_ASSOC)['schoolID'];
-  $stmt = $conn->prepare("SELECT coachID FROM coaches LIMIT 1 OFFSET $team_count");
-  $stmt->execute();
-  $coachesIDrow = $stmt->fetch(PDO::FETCH_ASSOC)['coachID'];
-  $stmt = $conn->prepare("INSERT INTO team VALUES (null,:sid,:cid,:gamesPlayed,:wins,:draws,:losses,:teamSuffix)");
-  //ERROR WITH PRIMARY KEYS MUST COLLECT FROM EACH TABLE
-  $stmt->bindParam(':sid',$schoolIDrow);
-  $stmt->bindParam(':cid',$coachesIDrow);
-  $game_count = $wins_lst[$team_count] + $draws_lst[$team_count] + $loss_lst[$team_count];
-  $stmt->bindParam(':gamesPlayed',$game_count);
-  $stmt->bindParam(':wins',$wins_lst[$team_count]);
-  $stmt->bindParam(':draws',$draws_lst[$team_count]);
-  $stmt->bindParam(':losses',$loss_lst[$team_count]);
-  if ($team_count == 0){
-    $ts = 'A';
-  }else{
-    $ts = 'B';
-  }
-  $stmt->bindParam(':teamSuffix',$ts);
-  $stmt->execute();
-  $stmt = $conn->prepare("SELECT teamID FROM team LIMIT 1 OFFSET $team_count");
-  $stmt->execute();
-  $teamIDrow = $stmt->fetch(PDO::FETCH_ASSOC)['teamID'];
-  while ($player_count <= sizeof($name_lst)-1 and isset($name_lst[$player_count])) {
-    //token does not require a value as it is generated only when a user has forgotten their password
-    $stmt = $conn->prepare("INSERT INTO players VALUES (null,:f,:s,:e,:tid,:ac,:ca,:pn,:gol,:ass,:mp,:motm,:pass,' ',:hatn)");
-    $stmt->bindParam(':f',$name_lst[$player_count]);
-    $stmt->bindParam(':s',$team_name_lst[$team_count]);
-    $email = $name_lst[$player_count]."@".$team_name_lst[$team_count].".com";
-    $stmt->bindParam(':e',$email);
-    $stmt->bindParam(':tid',$teamIDrow);
-    if ($player_count == 9) {
-      $active = 0;
-      $captain = 0;
-    }else if ($player_count == 0){
-      $active = 1;
-      $captain = 1;
-    } else {
-      $active = 1;
-      $captain = 0;
-    }
-    $null = 0;
-    $stmt->bindParam(':ac',$active);
-    $stmt->bindParam(':ca',$captain);
-    $stmt->bindParam(':pn',$player_count);
-    $stmt->bindParam(':gol',$null);
-    $stmt->bindParam(':ass',$null);
-    $stmt->bindParam(':mp',$null);
-    $stmt->bindParam(':motm',$null);
-    $stmt->bindParam(':pass',password_hash('playerpassword',PASSWORD_BCRYPT));
-    $stmt->bindParam(':hatn',$player_count);
-    $stmt->execute();
-    $player_count = $player_count + 1;
-  }
-  $player_count = 0;
-  $team_count = $team_count + 1;
-}
-$null = 0;
-$six = 6;
-$three = 3;
-$eleven = 11;
-$eight = 8;
-$stmt = $conn->prepare("SELECT teamID FROM team LIMIT 1 OFFSET 0");
-$stmt->execute();
-$winner = $stmt->fetch(PDO::FETCH_ASSOC)['teamID'];
-$stmt = $conn->prepare("SELECT playerID FROM players LIMIT 1 OFFSET 5");
-$stmt->execute();
-$playerID = $stmt->fetch(PDO::FETCH_ASSOC)['playerID'];
-$playerID2 = $playerID + 1;
-$stmt = $conn->prepare("INSERT INTO seasons VALUES (null,:wid,:pOun,:pBSS,:pUpp,:pSta,:motmAwardID,:goalAwardID,:assistAwardID,:pMID)");
-$stmt->bindParam(':wid',$winner);
-$stmt->bindParam(':pOun',$six);
-$stmt->bindParam(':pBSS',$null);
-$stmt->bindParam(':pUpp',$three);
-$stmt->bindParam(':pSta',$null);
-$stmt->bindParam(':motmAwardID',$playerID);
-$stmt->bindParam(':goalAwardID',$playerID2);
-$stmt->bindParam(':assistAwardID',$playerID);
-$stmt->bindParam(':pMID',$playerID2);
-$stmt->execute();
 $result_count = 0;
 $team_indexes = array(0,2,1,0,1,2,0,2);
 $score_lst = array(5,2,2,4,3,4,3,3);
-
+$stmt = $conn->prepare("DELETE FROM results");
+$stmt->execute();
 
 while ($result_count < 4) {
 
@@ -223,7 +87,6 @@ while ($result_count < 4) {
   $time = '13:45:00';
   $motmH = $indexesHome[array_rand($indexesHome, 1)];
   $motmA = $indexesAway[array_rand($indexesAway, 1)];
-  echo"<p> hID ".$homeTeamID." // aID ".$awayTeamID." // hS ".$scoreH." // awayS ".$scoreA." // all hq: ".$implodedIndexesH." // all aq: ".$implodedIndexesA." // agi: ".$agi." // hgi: ".$hgi." // date: ".$date." // startTime: ".$time." // motm H: ".$motmH." // motmA: ".$motmA."</p>";
 
   //BINDING DATA TO STATEMENT
 

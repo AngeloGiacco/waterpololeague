@@ -12,13 +12,14 @@ Being built using HTML, CSS and a lot of PHP.
 - [x] Homepage
 - [x] Login
 - [ ] Contact Page
+- [ ] Generate Test Data
+- [ ] Fixture Viewing
 - [ ] Table Page
 - [ ] Stats Page
 - [ ] Player Page
 - [ ] Coach Page
 - [ ] Admin Page
 - [ ] Season Generation
-- [ ] Fixture Viewing
 - [ ] Lineup Selection
 
 ## 📧 Contact

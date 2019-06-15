@@ -46,24 +46,24 @@
 
 
       case "player":
-      $stmt = $conn->prepare("SELECT password FROM players WHERE email = :email");
-      $stmt->bindParam(':email',$email);
-      $stmt->execute();
-      $hashed = $stmt->fetch(PDO::FETCH_ASSOC)["password"];
-      if (password_verify($attempt,$hashed)){
-        $_SESSION["userType"] = "player";
-        $_SESSION["email"] = $email;
-        ?><script>
-            window.location.replace("player.php");
-          </script><?php
-        exit;
-      } else {
-        ?><script>
-            alert("incorrect email and password combination");
-            window.location.replace("index.php");
-          </script><?php
-      }
-      break;
+        $stmt = $conn->prepare("SELECT password FROM players WHERE email = :email");
+        $stmt->bindParam(':email',$email);
+        $stmt->execute();
+        $hashed = $stmt->fetch(PDO::FETCH_ASSOC)["password"];
+        if (password_verify($attempt,$hashed)){
+          $_SESSION["userType"] = "player";
+          $_SESSION["email"] = $email;
+          ?><script>
+              window.location.replace("player.php");
+            </script><?php
+          exit;
+        } else {
+          ?><script>
+              alert("incorrect email and password combination");
+              window.location.replace("index.php");
+            </script><?php
+        }
+        break;
     }
   $conn=null;
 }

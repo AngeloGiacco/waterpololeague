@@ -1,2 +1,3 @@
 source/connection.php
-source/authenticate.php
+source/admin_credentials.php
+source/config.js

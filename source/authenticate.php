@@ -2,13 +2,14 @@
   session_start();
   array_map("htmlspecialchars", $_POST);
   include_once("connection.php");
+  include_once("admin_credentials.php")
   try {
     $userType = $_POST["userType"];
     $email = $_POST["email"];
     $attempt = $_POST["pswd"];
     switch ($userType) {
       case "admin":
-        if ($email == "jc2@oundleschool.org.uk" and $attempt == "julie") {
+        if ($email == $admin_email and $attempt == $admin_password) {
           $_SESSION["userType"] = "admin";
           $_SESSION["email"] = $email;
           ?><script>

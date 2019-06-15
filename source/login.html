@@ -12,7 +12,31 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script type='text/javascript' src='config.js'></script>
     <link href="styles/template.css" rel="stylesheet">
+    <script>
+      var key = config.GOOGLE_SITE_KEY;
+      $(document).ready(function () {
+        html_code = '<div id = "recaptcha" class="g-recaptcha" data-sitekey="'+key+'" data-callback="verifyCaptcha"></div>';
+        $('#recaptcha').html(html_code);
+      });
+      function verifyCaptcha() {
+        $('#submit').removeAttr('disabled');
+      };
+    </script>
+    <style>
+      input[disabled]#submit,
+      input[disabled]#submit:hover,
+      input[disabled]#submit:active,
+      input[disabled]#submit:focus {
+        background: #CCCCCC;
+        box-shadow: none;
+        outline: none;
+        opacity: 0.5;
+        text-decoration: none;
+      }
+    </style>
   </head>
   <body>
 
@@ -86,8 +110,11 @@
             <input name = "email" placeholder="enter your email" type = "email" required>
             <input name = "pswd" type = "password" placeholder = "password" required>
             <br><br>
-            <input class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">
 
+            <div id = "recaptcha"></div>
+            <div id="g-recaptcha-error"></div>
+
+            <br><input disabled = "disabled" id = "submit" class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">
 
           </form>
 

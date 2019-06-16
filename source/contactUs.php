@@ -1,5 +1,6 @@
 <?php
-  if (isset($_POST["message"]) and $_POST["name"] and$_POST["name"] and $_POST["subject"]) {
+  if ((isset($_POST["message"]) and isset($_POST["name"])) and (isset($_POST["name"]) and isset($_POST["subject"]))) {
+    include_once("creator_credentials.php");
     $message = $_POST["message"];
     $name = $_POST["name"];
     $email =$_POST["name"];
@@ -7,7 +8,7 @@
     $txt = "'".$message. "' sent from ".$email;
     $website_email = "contact@emiswaterpolo.dx.am";
     $headers = "From: ".$website_email. "\r\n";
-    $to = "giacco.angelo.s@gmail.com";
+    $to = $creator_email;
     mail($to,$subject,$txt,$headers);
   } else {
     ?><script>

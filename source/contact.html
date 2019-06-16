@@ -13,8 +13,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script type='text/javascript' src='config.js'></script>
     <link href="styles/template.css" rel="stylesheet">
+    <script type='text/javascript' src='config.js'></script>
     <script>
       var key = config.GOOGLE_SITE_KEY;
       $(document).ready(function () {
@@ -85,7 +85,7 @@
           <label>Name: </label><input class = "text" name="name" placeholder = "hey, what's your name?" style="width: 200px" required>
           <label>Email: </label><input class = "text" name="email" placeholder="what's your email?" style="width: 200px" required><br><br>
           <label>Subject: </label><input class = "text" name = "subject" placeholder="Message subject" style="width: 400px;" required><br>
-          <textarea form ="contact" name="message" id="message" rows = "10" cols="35" wrap="soft"></textarea><br><br>
+          <label>Message: </label><textarea form ="contact" name="message" id="message" rows = "10" cols="35" wrap="soft"></textarea><br><br>
           <div id = "recaptcha"></div>
           <div id="g-recaptcha-error"></div><br>
           <input disabled = "disabled" id = "submit" class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">

@@ -80,12 +80,14 @@
       </div>
 
       <div class="content">
+        <h1>Contact Us!</h1>
         <form action="contactUs.php" method = "post" id = "contact">
-          <label>Name</label><input class = "text" name="name" placeholder = "hey, what's your name?" width = "100px" required>
-          <label>Email</label><input class = "text" name="email" placeholder="what's your email?" width = "100px" required><br><br>
-          <textarea form ="contact" name="message" id="message" rows = "10" cols="35" wrap="soft"></textarea>
+          <label>Name: </label><input class = "text" name="name" placeholder = "hey, what's your name?" style="width: 200px" required>
+          <label>Email: </label><input class = "text" name="email" placeholder="what's your email?" style="width: 200px" required><br><br>
+          <label>Subject: </label><input class = "text" name = "subject" placeholder="Message subject" style="width: 400px;" required><br>
+          <textarea form ="contact" name="message" id="message" rows = "10" cols="35" wrap="soft"></textarea><br><br>
           <div id = "recaptcha"></div>
-          <div id="g-recaptcha-error"></div>
+          <div id="g-recaptcha-error"></div><br>
           <input disabled = "disabled" id = "submit" class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">
         </form>
       </div>

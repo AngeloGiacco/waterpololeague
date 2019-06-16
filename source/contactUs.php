@@ -1,3 +1,22 @@
+<?php
+  if ((isset($_POST["message"]) and isset($_POST["name"])) and (isset($_POST["name"]) and isset($_POST["subject"]))) {
+    include_once("creator_credentials.php");
+    $message = $_POST["message"];
+    $name = $_POST["name"];
+    $email =$_POST["name"];
+    $subject = $_POST["subject"];
+    $txt = "'".$message. "' sent from ".$email;
+    $website_email = "contact@emiswaterpolo.dx.am";
+    $headers = "From: ".$website_email. "\r\n";
+    $to = $creator_email;
+    mail($to,$subject,$txt,$headers);
+  } else {
+    ?><script>
+        alert("invalid information sent");
+        window.location.replace("contact.html");
+      </script><?php
+  }
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -12,31 +31,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <link href="styles/template.css" rel="stylesheet">
-    <script type='text/javascript' src='config.js'></script>
-    <script>
-      var key = config.GOOGLE_SITE_KEY;
-      $(document).ready(function () {
-        html_code = '<div id = "recaptcha" class="g-recaptcha" data-sitekey="'+key+'" data-callback="verifyCaptcha"></div>';
-        $('#recaptcha').html(html_code);
-      });
-      function verifyCaptcha() {
-        $('#submit').removeAttr('disabled');
-      };
-    </script>
-    <style>
-      input[disabled]#submit,
-      input[disabled]#submit:hover,
-      input[disabled]#submit:active,
-      input[disabled]#submit:focus {
-        background: #CCCCCC;
-        box-shadow: none;
-        outline: none;
-        opacity: 0.5;
-        text-decoration: none;
-      }
-    </style>
   </head>
   <body>
 
@@ -71,25 +66,12 @@
             <img class="img-fluid" src="styles/images/waterpolo.jpg" alt="Water Polo">
             <div class="container">
               <div class="carousel-caption text-left" height="40rem">
-                <h1>EMIS Water Polo Contact</h1>
-                <p>Contact the water polo league for East Midlands Independent Schools</p>
+                <h1>Message sent!</h1>
+                <p>Thanks for getting touch with us!</p>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="content">
-        <h1>Contact Us!</h1>
-        <form action="contactUs.php" method = "post" id = "contact">
-          <label>Name: </label><input class = "text" name="name" placeholder = "hey, what's your name?" style="width: 200px" required>
-          <label>Email: </label><input class = "text" name="email" placeholder="what's your email?" style="width: 200px" required><br><br>
-          <label>Subject: </label><input class = "text" name = "subject" placeholder="Message subject" style="width: 400px;" required><br>
-          <label>Message: </label><textarea form ="contact" name="message" id="message" rows = "10" cols="35" wrap="soft"></textarea><br><br>
-          <div id = "recaptcha"></div>
-          <div id="g-recaptcha-error"></div><br>
-          <input disabled = "disabled" id = "submit" class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">
-        </form>
       </div>
 
 			<footer class="container">

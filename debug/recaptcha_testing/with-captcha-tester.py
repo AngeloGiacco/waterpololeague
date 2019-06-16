@@ -2,8 +2,7 @@ import sys
 import os
 from selenium import webdriver
 from credentials import *
-path_chromedriver = "/Users/angelogiacco/⁨Documents⁩/⁨GitHub⁩/WaterPoloLeagueWebsiteCoursework/debug⁩/recaptcha_testing⁩"
-browser = webdriver.Chrome(path_chromedriver)
+browser = webdriver.Chrome(executable_path=r"/Users/angelogiacco/Documents/GitHub/WaterPoloLeagueWebsiteCoursework/debug/recaptcha_testing/chromedriver")
 browser.get('http://emiswaterpolo.dx.am/login.html')
 admin_button = browser.find_elements_by_xpath('//*[@id="login-form"]/form/div[1]/label[3]/input')[0]
 admin_button.click()

@@ -15,8 +15,7 @@
       $txt = "'".$message. "' sent from ".$email;
       $website_email = "contact@emiswaterpolo.dx.am";
       $headers = "From: ".$website_email. "\r\n";
-      $to = $creator_email;
-      mail($to,$subject,$txt,$headers);
+      mail($creator_email,$subject,$txt,$headers);
     } else {
       leave();
     }

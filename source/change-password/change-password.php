@@ -11,8 +11,10 @@
   if (isset($_SESSION["userType"]) and isset($_SESSION["email"])) {
     $userType = $_SESSION["userType"];
     $email = $_SESSION["email"];
-    if ((isset($_POST["pswd"]) and isset($_POST["new-pswd"])) and isset($_POST["new-pswd-repeat"])) {
-      if ($_POST["new-pswd"] == $_POST["new-pswd-repeat"]) {
+    if (isset($_POST["pswd"])) {
+      $pswd = $_POST["new-pswd"];
+      $pswdrepeat = $_POST["new-pswd-repeat"];
+      if ($pswd == $pswdrepeat) {
         if ($userType == "coach") {
           $stmt = $conn->prepare("SELECT password FROM coaches WHERE email = :email");
         } else {

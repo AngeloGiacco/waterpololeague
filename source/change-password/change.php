@@ -1,16 +1,17 @@
 <?php
-  if (isset($_SESSION["email"]) {
+  session_start();
+  if (!isset($_SESSION["email"])) {
+    ?><script>
+        alert("something went wrong, try logging in again!");
+        window.location.replace("login.html");
+      </script><?php
+  } else {
     if ($_SESSION["userType"]=="admin") {
       ?><script>
           alert("unfortunately an admin cannot change their password, get in touch with Angelo Giacco to change it.");
           window.location.replace("contact.html");
         </script><?php
     }
-  } else {
-    ?><script>
-        alert("something went wrong, try logging in again!");
-        window.location.replace("contact.html");
-      </script><?php
   }
 ?>
 <!doctype html>
@@ -71,10 +72,11 @@
       </div>
 
       <div class="content">
-        <form method = "post" action = "change-password.php">
-          <label>Old password</label><input type = "password" name = "pswd" required>
+        <form method = "post" action = "change-password.php" style="width=500px;">
+          <label>Old password</label><input type = "password" name = "pswd" required><br>
           <label>New password</label><input type = "password" name = "new-pswd" required>
           <label>Confirm new password</label><input type = "password" name = "new-pswd-repeat" required>
+          <br><input id = "submit" class="btn btn-primary btn-block" type="submit" value="Submit">
         </form>
       </div>
 

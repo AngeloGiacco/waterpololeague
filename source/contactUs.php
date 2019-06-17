@@ -1,20 +1,27 @@
 <?php
-  if ((isset($_POST["message"]) and isset($_POST["name"])) and (isset($_POST["name"]) and isset($_POST["subject"]))) {
-    include_once("creator_credentials.php");
-    $message = $_POST["message"];
-    $name = $_POST["name"];
-    $email =$_POST["name"];
-    $subject = $_POST["subject"];
-    $txt = "'".$message. "' sent from ".$email;
-    $website_email = "contact@emiswaterpolo.dx.am";
-    $headers = "From: ".$website_email. "\r\n";
-    $to = $creator_email;
-    mail($to,$subject,$txt,$headers);
-  } else {
+  function leave() {
     ?><script>
         alert("invalid information sent");
         window.location.replace("contact.html");
       </script><?php
+  }
+  if (isset($_POST["message"]) and isset($_POST["name"])) {
+    if (isset($_POST["name"]) and isset($_POST["subject"])) {
+      include_once("creator_credentials.php");
+      $message = $_POST["message"];
+      $name = $_POST["name"];
+      $email =$_POST["name"];
+      $subject = $_POST["subject"];
+      $txt = "'".$message. "' sent from ".$email;
+      $website_email = "contact@emiswaterpolo.dx.am";
+      $headers = "From: ".$website_email. "\r\n";
+      $to = $creator_email;
+      mail($to,$subject,$txt,$headers);
+    } else {
+      leave();
+    }
+  } else {
+    leave();
   }
 ?>
 <!doctype html>

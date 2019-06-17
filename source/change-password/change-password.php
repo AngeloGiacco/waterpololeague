@@ -1,22 +1,47 @@
 <?php
   function leave() {
     ?><script>
-        alert("invalid information sent");
-        window.location.replace("contact.html");
+        alert("something went wrong, please try again!");
+        window.location.replace("index.php");
       </script><?php
   }
+  session_start();
   array_map("htmlspecialchars", $_POST);
-  if (isset($_POST["message"]) and isset($_POST["name"])) {
-    if (isset($_POST["name"]) and isset($_POST["subject"])) {
-      include_once("creator_credentials.php");
-      $message = $_POST["message"];
-      $name = $_POST["name"];
-      $email =$_POST["name"];
-      $subject = $_POST["subject"];
-      $txt = "'".$message. "' sent from ".$email;
-      $website_email = "contact@emiswaterpolo.dx.am";
-      $headers = "From: ".$website_email. "\r\n";
-      mail($creator_email,$subject,$txt,$headers);
+  include_once("connection.php");
+  if (isset($_SESSION["userType"]) and isset($_SESSION["email"])) {
+    $userType = $_SESSION["userType"];
+    $email = $_SESSION["email"];
+    if ((isset($_POST["pswd"]) and isset($_POST["new-pswd"])) and isset($_POST["new-pswd-repeat"])) {
+      if ($_POST["new-pswd"] == $_POST["new-pswd-repeat"]) {
+        if ($userType == "coach") {
+          $stmt = $conn->prepare("SELECT password FROM coaches WHERE email = :email");
+        } else {
+          $stmt = $conn->prepare("SELECT password FROM players WHERE email = :email");
+        }
+        $stmt->bindParam(':email',$_POST["email"]);
+        $stmt->execute();
+        $hashed = $stmt->fetch(PDO::FETCH_ASSOC)["password"];
+        if password_verify($_POST["pswd"],$hashed) {
+          if ($userType == "coach") {
+            $stmt = $conn->prepare("UPDATE coaches SET password = :hashedNewPswd WHERE email = :email");
+          } else {
+            $stmt = $conn->prepare("UPDATE players SET password = :hashedNewPswd WHERE email = :email");
+          }
+          $stmt->bindParam(':email',$_POST["email"]);
+          $stmt->bindParam(':hashedNewPswd',password_hash($_POST["new-pswd"],PASSWORD_BCRYPT));
+          $stmt->execute();
+        } else {
+          ?><script>
+              alert("The old password was not corrrect, please try again!");
+              window.location.replace("change.html");
+            </script><?php
+        }
+      } else {
+        ?><script>
+            alert("the new passwords did not match, please try again!");
+            window.location.replace("change.html");
+          </script><?php
+      }
     } else {
       leave();
     }
@@ -73,12 +98,16 @@
             <img class="img-fluid" src="styles/images/waterpolo.jpg" alt="Water Polo">
             <div class="container">
               <div class="carousel-caption text-left" height="40rem">
-                <h1>Message sent!</h1>
-                <p>Thanks for getting touch with us!</p>
+                <h1>Hurrah!</h1>
+                <p>Your password was successfully changed!</p>
               </div>
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="content">
+        <h1 text-align = "center">CONTENT</h1>
       </div>
 
 			<footer class="container">

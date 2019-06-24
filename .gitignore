@@ -1,2 +1,7 @@
 source/connection.php
 source/authenticate.php
+source/config.js
+source/login/admin_credentials.php
+source/contact/creator_credentials.php
+debug/recaptcha_testing/credentials.py
+debug/recaptcha_testing/__pycache__

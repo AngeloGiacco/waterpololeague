@@ -56,7 +56,39 @@
       </div>
 
       <div class="content">
-        <h1 text-align = "center">TABLE</h1>
+        <table>
+          <tr>
+            <th>Team</th>
+            <th>Games Played</th>
+            <th>Wins</th>
+            <th>Draws</th>
+            <th>Losses</th>
+            <th>Points</th>
+          </tr>
+          <?php
+            include_once("connection.php");
+            $stmt = $conn->prepare("SELECT * FROM team");
+            $stmt->execute();
+            while ($team = $stmt->fetch(FETCH::PDO_ASSOC)) {
+              $sID = $team["schoolID"];
+              $query = $conn->prepare("SELECT name FROM school WHERE id = :schoolID");
+              $query->bindParam(":schoolID",$sID);
+              $query->execute();
+              $result = $query->fetch(FETCH::PDO_ASSOC);
+              $schoolName = $query["name"];
+              $teamName = $schoolName + $team["teamSuffix"];
+              $points = $team["wins"] * $team["draws"];
+              echo "<tr>";
+              echo "<td>".$teamName."</td>";
+              echo "<td>".$team["gamesPlayed"]."</td>";
+              echo "<td>".$team["wins"]."</td>";
+              echo "<td>".$team["draws"]."</td>";
+              echo "<td>".$team["losses"]."</td>";
+              echo "<td>".$points."</td>";
+              echo "</tr>";
+            }
+          ?>
+        </table>
       </div>
 
 			<footer class="container">

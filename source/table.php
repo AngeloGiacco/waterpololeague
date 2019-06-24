@@ -58,7 +58,7 @@
       <div class="content">
         <table>
           <tr>
-            <th>Team</th>
+            <th>Team Name</th>
             <th>Games Played</th>
             <th>Wins</th>
             <th>Draws</th>
@@ -69,13 +69,14 @@
             include_once("connection.php");
             $stmt = $conn->prepare("SELECT * FROM team");
             $stmt->execute();
-            while ($team = $stmt->fetch(FETCH::PDO_ASSOC)) {
+            while ($team = $stmt->fetch(PDO::FETCH_ASSOC)) {
               $sID = $team["schoolID"];
-              $query = $conn->prepare("SELECT name FROM school WHERE id = :schoolID");
+              $query = $conn->prepare("SELECT name FROM school WHERE schoolID = :schoolID");
               $query->bindParam(":schoolID",$sID);
               $query->execute();
-              $result = $query->fetch(FETCH::PDO_ASSOC);
-              $schoolName = $query["name"];
+              $result = $query->fetch(PDO::FETCH_ASSOC);
+              $schoolName = $result["name"];
+              print_r($schoolName);
               $teamName = $schoolName + $team["teamSuffix"];
               $points = $team["wins"] * $team["draws"];
               echo "<tr>";

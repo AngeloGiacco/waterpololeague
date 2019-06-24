@@ -14,7 +14,7 @@
     if (isset($_POST["pswd"])) {
       $pswd = $_POST["new-pswd"];
       $pswdrepeat = $_POST["new-pswd-repeat"];
-      if ($pswd == $pswdrepeat) {
+      if ($pswd === $pswdrepeat) {
         if ($userType == "coach") {
           $stmt = $conn->prepare("SELECT password FROM coaches WHERE email = :email");
         } else {

@@ -13,7 +13,7 @@ Being built using HTML, CSS and a lot of PHP.
 - [x] Homepage
 - [x] Login
 - [x] Generate Test Data
-- [ ] Contact Page
+- [x] Contact Page
 - [ ] Fixture Viewing
 - [ ] Table Page
 - [ ] Stats Page

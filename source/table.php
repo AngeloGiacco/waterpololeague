@@ -76,8 +76,7 @@
               $query->execute();
               $result = $query->fetch(PDO::FETCH_ASSOC);
               $schoolName = $result["name"];
-              print_r($schoolName);
-              $teamName = $schoolName + $team["teamSuffix"];
+              $teamName = $schoolName." ".$team["teamSuffix"];
               $points = $team["wins"] * $team["draws"];
               echo "<tr>";
               echo "<td>".$teamName."</td>";

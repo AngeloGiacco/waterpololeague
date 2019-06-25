@@ -15,7 +15,7 @@ Being built using HTML, CSS and a lot of PHP.
 - [x] Generate Test Data
 - [x] Contact Page
 - [x] Table Page
-- [ ] Stats Page
+- [x] Stats Page
 - [ ] Fixture Viewing
 - [ ] Player Page
 - [ ] Coach Page

@@ -1,3 +1,6 @@
+<?php
+  include_once("connection.php");
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -71,16 +74,38 @@
         </div>
       </div>
 
-      <a class="button" data-table="1" href="#content">button1</a>
-      <a class="button" data-table="2" href="#content">button2</a>
-      <a class="button" data-table="3" href="#content">button3</a>
-      <a class="button" data-table="4" href="#content">button4</a>
+      <a class="button" data-table="1" href="#content">Goals</a>
+      <a class="button" data-table="2" href="#content">Assists</a>
+      <a class="button" data-table="3" href="#content">Minutes Played</a>
+      <a class="button" data-table="4" href="#content">Man of the Match Awards</a>
 
       <div class="content">
-        <table id="1"><tr><td>Goals</td></tr></table>
-        <table id="2"><tr><td>Assists</td></tr></table>
-        <table id="3"><tr><td>Minutes Played</td></tr></table>
-        <table id="4"><tr><td>Man of the Match Awards</td></tr></table>
+        <table id="1">
+          <tr><td>Player Name</td><td>Team</td><td>Goals</td></tr>
+          <?php
+            $stmt = $conn->prepare("SELECT TOP 5 * FROM players ORDER BY goals DESC");
+            $stmt->execute();
+            while ($player = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              $goals = $player["goals"];
+              $playerName = $player["forename"]." ".$player["surname"];
+              $teamID = $player["teamID"];
+              $query1 = $conn->prepare("SELECT * FROM team WHERE teamID = :tID");
+              $query1->bindParam(":tID",$teamID);
+              $query1->execute();
+              $team = $query1->fetch(PDO::FETCH_ASSOC);
+              $suffix = $team["teamSuffix"];
+              $schoolID = $team["schoolID"];
+              $query2 = $conn->prepare("SELECT name FROM schools WHERE schoolID = :sID");
+              $query2->bindParam(":sID",$schoolID);
+              $query2->execute();
+              $schoolName = $query2->fetch(PDO::FETCH_ASSOC)["name"];
+              $teamName = $schoolName." ".$suffix;
+            }
+          ?>
+        </table>
+        <table id="2"><tr><td>Player Name</td><td>Team</td><td>Assists</td></tr></table>
+        <table id="3"><tr><td>Player Name</td><td>Team</td><td>Minutes Played</td></tr></table>
+        <table id="4"><tr><td>Player Name</td><td>Team</td><td>Man of the Match Awards</td></tr></table>
       </div>
 
 			<footer class="container">

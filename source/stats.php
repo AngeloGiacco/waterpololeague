@@ -13,6 +13,22 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link href="styles/template.css" rel="stylesheet">
+    <script>
+    $(document).ready(function () {
+      var tables = $("table");
+      tables.hide().first().show();
+      //Hides all the tables except first
+      $("a.button").on("click", function () {
+          //Adds eventListner to buttons
+          tables.hide();
+          //Hides all the tables
+          var tableTarget = $(this).data("table");
+          //Gets data# of button
+          $("table#" + tableTarget).show();
+          //Shows the table with an id equal to data attr of the button
+      })
+    });
+    </script>
   </head>
   <body>
 
@@ -55,8 +71,16 @@
         </div>
       </div>
 
+      <a class="button" data-table="1" href="#content">button1</a>
+      <a class="button" data-table="2" href="#content">button2</a>
+      <a class="button" data-table="3" href="#content">button3</a>
+      <a class="button" data-table="4" href="#content">button4</a>
+
       <div class="content">
-        <h1 text-align = "center">STATS</h1>
+        <table id="1"><tr><td>Goals</td></tr></table>
+        <table id="2"><tr><td>Assists</td></tr></table>
+        <table id="3"><tr><td>Minutes Played</td></tr></table>
+        <table id="4"><tr><td>Man of the Match Awards</td></tr></table>
       </div>
 
 			<footer class="container">

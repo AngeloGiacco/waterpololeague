@@ -20,15 +20,10 @@
     $(document).ready(function () {
       var tables = $("table");
       tables.hide().first().show();
-      //Hides all the tables except first
       $("a.button").on("click", function () {
-          //Adds eventListner to buttons
           tables.hide();
-          //Hides all the tables
           var tableTarget = $(this).data("table");
-          //Gets data# of button
           $("table#" + tableTarget).show();
-          //Shows the table with an id equal to data attr of the button
       })
     });
     </script>
@@ -83,7 +78,7 @@
         <table id="1">
           <tr><td>Player Name</td><td>Team</td><td>Goals</td></tr>
           <?php
-            $stmt = $conn->prepare("SELECT TOP 5 * FROM players ORDER BY goals DESC");
+            $stmt = $conn->prepare("SELECT * FROM players ORDER BY goals DESC LIMIT 5");
             $stmt->execute();
             while ($player = $stmt->fetch(PDO::FETCH_ASSOC)) {
               $goals = $player["goals"];
@@ -95,15 +90,47 @@
               $team = $query1->fetch(PDO::FETCH_ASSOC);
               $suffix = $team["teamSuffix"];
               $schoolID = $team["schoolID"];
-              $query2 = $conn->prepare("SELECT name FROM schools WHERE schoolID = :sID");
+              $query2 = $conn->prepare("SELECT name FROM school WHERE schoolID = :sID");
               $query2->bindParam(":sID",$schoolID);
               $query2->execute();
               $schoolName = $query2->fetch(PDO::FETCH_ASSOC)["name"];
               $teamName = $schoolName." ".$suffix;
+              echo "<tr>";
+              echo "<td>".$playerName."</td>";
+              echo "<td>".$teamName."</td>";
+              echo "<td>".$goals."</td>";
+              echo "</tr>";
             }
           ?>
         </table>
-        <table id="2"><tr><td>Player Name</td><td>Team</td><td>Assists</td></tr></table>
+        <table id="2">
+          <tr><td>Player Name</td><td>Team</td><td>Assists</td></tr>
+          <?php
+            $stmt = $conn->prepare("SELECT * FROM players ORDER BY assists DESC LIMIT 5");
+            $stmt->execute();
+            while ($player = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              $assists = $player["assists"];
+              $playerName = $player["forename"]." ".$player["surname"];
+              $teamID = $player["teamID"];
+              $query1 = $conn->prepare("SELECT * FROM team WHERE teamID = :tID");
+              $query1->bindParam(":tID",$teamID);
+              $query1->execute();
+              $team = $query1->fetch(PDO::FETCH_ASSOC);
+              $suffix = $team["teamSuffix"];
+              $schoolID = $team["schoolID"];
+              $query2 = $conn->prepare("SELECT name FROM school WHERE schoolID = :sID");
+              $query2->bindParam(":sID",$schoolID);
+              $query2->execute();
+              $schoolName = $query2->fetch(PDO::FETCH_ASSOC)["name"];
+              $teamName = $schoolName." ".$suffix;
+              echo "<tr>";
+              echo "<td>".$playerName."</td>";
+              echo "<td>".$teamName."</td>";
+              echo "<td>".$assists."</td>";
+              echo "</tr>";
+            }
+          ?>
+        </table>
         <table id="3"><tr><td>Player Name</td><td>Team</td><td>Minutes Played</td></tr></table>
         <table id="4"><tr><td>Player Name</td><td>Team</td><td>Man of the Match Awards</td></tr></table>
       </div>

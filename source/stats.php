@@ -131,8 +131,62 @@
             }
           ?>
         </table>
-        <table id="3"><tr><td>Player Name</td><td>Team</td><td>Minutes Played</td></tr></table>
-        <table id="4"><tr><td>Player Name</td><td>Team</td><td>Man of the Match Awards</td></tr></table>
+        <table id="3">
+          <tr><td>Player Name</td><td>Team</td><td>Minutes Played</td></tr>
+          <?php
+            $stmt = $conn->prepare("SELECT * FROM players ORDER BY minutesPlayed DESC LIMIT 5");
+            $stmt->execute();
+            while ($player = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              $mp = $player["minutesPlayed"];
+              $playerName = $player["forename"]." ".$player["surname"];
+              $teamID = $player["teamID"];
+              $query1 = $conn->prepare("SELECT * FROM team WHERE teamID = :tID");
+              $query1->bindParam(":tID",$teamID);
+              $query1->execute();
+              $team = $query1->fetch(PDO::FETCH_ASSOC);
+              $suffix = $team["teamSuffix"];
+              $schoolID = $team["schoolID"];
+              $query2 = $conn->prepare("SELECT name FROM school WHERE schoolID = :sID");
+              $query2->bindParam(":sID",$schoolID);
+              $query2->execute();
+              $schoolName = $query2->fetch(PDO::FETCH_ASSOC)["name"];
+              $teamName = $schoolName." ".$suffix;
+              echo "<tr>";
+              echo "<td>".$playerName."</td>";
+              echo "<td>".$teamName."</td>";
+              echo "<td>".$mp."</td>";
+              echo "</tr>";
+            }
+          ?>
+        </table>
+        <table id="4">
+          <tr><td>Player Name</td><td>Team</td><td>Man of the Match Awards</td></tr>
+          <?php
+            $stmt = $conn->prepare("SELECT * FROM players ORDER BY motm DESC LIMIT 5");
+            $stmt->execute();
+            while ($player = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              $motm = $player["motm"];
+              $playerName = $player["forename"]." ".$player["surname"];
+              $teamID = $player["teamID"];
+              $query1 = $conn->prepare("SELECT * FROM team WHERE teamID = :tID");
+              $query1->bindParam(":tID",$teamID);
+              $query1->execute();
+              $team = $query1->fetch(PDO::FETCH_ASSOC);
+              $suffix = $team["teamSuffix"];
+              $schoolID = $team["schoolID"];
+              $query2 = $conn->prepare("SELECT name FROM school WHERE schoolID = :sID");
+              $query2->bindParam(":sID",$schoolID);
+              $query2->execute();
+              $schoolName = $query2->fetch(PDO::FETCH_ASSOC)["name"];
+              $teamName = $schoolName." ".$suffix;
+              echo "<tr>";
+              echo "<td>".$playerName."</td>";
+              echo "<td>".$teamName."</td>";
+              echo "<td>".$motm."</td>";
+              echo "</tr>";
+            }
+          ?>
+        </table>
       </div>
 
 			<footer class="container">

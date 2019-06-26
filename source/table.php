@@ -47,8 +47,8 @@
             <img class="img-fluid" src="styles/images/waterpolo.jpg" alt="Water Polo">
             <div class="container">
               <div class="carousel-caption text-left" height="40rem">
-                <h1>EMIS Water Polo League Stats</h1>
-                <p>Check in on the water polo league for East Midlands Independent Schools</p>
+                <h1>EMIS Water Polo League Table</h1>
+                <p>Monitor the water polo league for East Midlands Independent Schools</p>
               </div>
             </div>
           </div>
@@ -56,7 +56,39 @@
       </div>
 
       <div class="content">
-        <h1 text-align = "center">STATS</h1>
+        <table>
+          <tr>
+            <th>Team Name</th>
+            <th>Games Played</th>
+            <th>Wins</th>
+            <th>Draws</th>
+            <th>Losses</th>
+            <th>Points</th>
+          </tr>
+          <?php
+            include_once("connection.php");
+            $stmt = $conn->prepare("SELECT * FROM team");
+            $stmt->execute();
+            while ($team = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              $sID = $team["schoolID"];
+              $query = $conn->prepare("SELECT name FROM school WHERE schoolID = :schoolID");
+              $query->bindParam(":schoolID",$sID);
+              $query->execute();
+              $result = $query->fetch(PDO::FETCH_ASSOC);
+              $schoolName = $result["name"];
+              $teamName = $schoolName." ".$team["teamSuffix"];
+              $points = $team["wins"] * $team["draws"];
+              echo "<tr>";
+              echo "<td>".$teamName."</td>";
+              echo "<td>".$team["gamesPlayed"]."</td>";
+              echo "<td>".$team["wins"]."</td>";
+              echo "<td>".$team["draws"]."</td>";
+              echo "<td>".$team["losses"]."</td>";
+              echo "<td>".$points."</td>";
+              echo "</tr>";
+            }
+          ?>
+        </table>
       </div>
 
 			<footer class="container">

@@ -1,4 +1,5 @@
 source/connection.php
+source/authenticate.php
 source/config.js
 source/login/admin_credentials.php
 source/contact/creator_credentials.php

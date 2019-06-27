@@ -14,22 +14,25 @@
     if (isset($_POST["pswd"])) {
       $pswd = $_POST["new-pswd"];
       $pswdrepeat = $_POST["new-pswd-repeat"];
-      if ($pswd === $pswdrepeat) {
+      if ($pswd === $pswdrepeat){
         if ($userType == "coach") {
           $stmt = $conn->prepare("SELECT password FROM coaches WHERE email = :email");
+          $stmt->bindParam(':email',$email);
+          $stmt->execute();
+          $hashed = $stmt->fetch(PDO::FETCH_ASSOC)["password"];
         } else {
           $stmt = $conn->prepare("SELECT password FROM players WHERE email = :email");
+          $stmt->bindParam(':email',$email);
+          $stmt->execute();
+          $hashed = $stmt->fetch(PDO::FETCH_ASSOC)["password"];
         }
-        $stmt->bindParam(':email',$_POST["email"]);
-        $stmt->execute();
-        $hashed = $stmt->fetch(PDO::FETCH_ASSOC)["password"];
-        if password_verify($_POST["pswd"],$hashed) {
+        if (password_verify($_POST["pswd"],$hashed)) {
           if ($userType == "coach") {
             $stmt = $conn->prepare("UPDATE coaches SET password = :hashedNewPswd WHERE email = :email");
           } else {
             $stmt = $conn->prepare("UPDATE players SET password = :hashedNewPswd WHERE email = :email");
           }
-          $stmt->bindParam(':email',$_POST["email"]);
+          $stmt->bindParam(':email',$email);
           $stmt->bindParam(':hashedNewPswd',password_hash($_POST["new-pswd"],PASSWORD_BCRYPT));
           $stmt->execute();
         } else {

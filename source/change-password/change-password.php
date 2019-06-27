@@ -38,13 +38,13 @@
         } else {
           ?><script>
               alert("The old password was not corrrect, please try again!");
-              window.location.replace("change.html");
+              window.location.replace("change.php");
             </script><?php
         }
       } else {
         ?><script>
             alert("the new passwords did not match, please try again!");
-            window.location.replace("change.html");
+            window.location.replace("change.php");
           </script><?php
       }
     } else {

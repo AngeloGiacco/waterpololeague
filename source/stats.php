@@ -24,8 +24,34 @@
           tables.hide();
           var tableTarget = $(this).data("table");
           $("table#" + tableTarget).show();
+          var input = input = document.getElementById("myInput");
+          if (tableTarget == "5") {
+            input.style.display = "";
+          } else {
+            input.style.display = "none";
+          }
       })
     });
+    </script>
+    <script>
+    function myFunction() {
+      var input, filter, table, tr, td, i, playername,teamname;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("5");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        playername = tr[i].getElementsByTagName("td")[0].innerText;
+        teamname = tr[i].getElementsByTagName("td")[1].innerText;
+        if (playername && teamname) {
+          if (playername.toUpperCase().indexOf(filter) > -1 || teamname.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
     </script>
   </head>
   <body>
@@ -73,10 +99,11 @@
       <a class="button" data-table="2" href="#content">Assists</a>
       <a class="button" data-table="3" href="#content">Minutes Played</a>
       <a class="button" data-table="4" href="#content">Man of the Match Awards</a>
+      <a class="button" data-table="5" href="#content">All</a>
 
       <div class="content">
         <table id="1">
-          <tr><td>Player Name</td><td>Team</td><td>Goals</td></tr>
+          <tr><th>Player Name</th><th>Team</th><th>Goals</th></tr>
           <?php
             $stmt = $conn->prepare("SELECT * FROM players ORDER BY goals DESC LIMIT 5");
             $stmt->execute();
@@ -104,7 +131,7 @@
           ?>
         </table>
         <table id="2">
-          <tr><td>Player Name</td><td>Team</td><td>Assists</td></tr>
+          <tr><th>Player Name</th><th>Team</th><th>Assists</th></tr>
           <?php
             $stmt = $conn->prepare("SELECT * FROM players ORDER BY assists DESC LIMIT 5");
             $stmt->execute();
@@ -132,7 +159,7 @@
           ?>
         </table>
         <table id="3">
-          <tr><td>Player Name</td><td>Team</td><td>Minutes Played</td></tr>
+          <tr><th>Player Name</th><th>Team</th><th>Minutes Played</th></tr>
           <?php
             $stmt = $conn->prepare("SELECT * FROM players ORDER BY minutesPlayed DESC LIMIT 5");
             $stmt->execute();
@@ -160,7 +187,7 @@
           ?>
         </table>
         <table id="4">
-          <tr><td>Player Name</td><td>Team</td><td>Man of the Match Awards</td></tr>
+          <tr><th>Player Name</th><th>Team</th><th>Man of the Match Awards</th></tr>
           <?php
             $stmt = $conn->prepare("SELECT * FROM players ORDER BY motm DESC LIMIT 5");
             $stmt->execute();
@@ -182,6 +209,41 @@
               echo "<tr>";
               echo "<td>".$playerName."</td>";
               echo "<td>".$teamName."</td>";
+              echo "<td>".$motm."</td>";
+              echo "</tr>";
+            }
+          ?>
+        </table>
+        <table id="5">
+          <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+          <tr><th>Player Name</th><th>Team</th><th>Goals</th><th>Assists</th><th>Minutes Played</th><th>Man of the Match Awards</th></tr>
+          <?php
+            $stmt = $conn->prepare("SELECT * FROM players");
+            $stmt->execute();
+            while ($player = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              $motm = $player["motm"];
+              $goals =  $player["goals"];
+              $assists = $player["assists"];
+              $mp = $player["minutesPlayed"];
+              $playerName = $player["forename"]." ".$player["surname"];
+              $teamID = $player["teamID"];
+              $query1 = $conn->prepare("SELECT * FROM team WHERE teamID = :tID");
+              $query1->bindParam(":tID",$teamID);
+              $query1->execute();
+              $team = $query1->fetch(PDO::FETCH_ASSOC);
+              $suffix = $team["teamSuffix"];
+              $schoolID = $team["schoolID"];
+              $query2 = $conn->prepare("SELECT name FROM school WHERE schoolID = :sID");
+              $query2->bindParam(":sID",$schoolID);
+              $query2->execute();
+              $schoolName = $query2->fetch(PDO::FETCH_ASSOC)["name"];
+              $teamName = $schoolName." ".$suffix;
+              echo "<tr>";
+              echo "<td>".$playerName."</td>";
+              echo "<td>".$teamName."</td>";
+              echo "<td>".$goals."</td>";
+              echo "<td>".$assists."</td>";
+              echo "<td>".$mp."</td>";
               echo "<td>".$motm."</td>";
               echo "</tr>";
             }

@@ -43,10 +43,10 @@
               <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="table.html">View League Table</a>
+              <a class="nav-link" href="table.php">View League Table</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="stats.html">View Statistics</a>
+              <a class="nav-link" href="stats.php">View Statistics</a>
             </li>
           </ul>
           <a href = "login.html"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button></a>

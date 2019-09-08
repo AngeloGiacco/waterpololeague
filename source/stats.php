@@ -19,6 +19,8 @@
     <script>
     $(document).ready(function () {
       var tables = $("table");
+      var input = input = document.getElementById("myInput");
+      input.style.display = "none";
       tables.hide().first().show();
       $("a.button").on("click", function () {
           tables.hide();
@@ -32,6 +34,44 @@
           }
       })
     });
+    $(document).ready(function(){
+        $('input[type="checkbox"]').click(function(){
+            if($(this).prop("checked") == true){
+              var tableTarget = $(this).data("table");
+              $("tr.inactive").hide();
+            }
+            else if($(this).prop("checked") == false){
+              var tableTarget = $(this).data("table");
+              $("tr.inactive").show();
+            }
+        });
+    });
+    </script>
+    <script>
+    function myFunction() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("5");
+      tr = table.getElementsByTagName("tr");
+
+      for (i = 0; i < tr.length; i++) {
+        player = tr[i].getElementsByTagName("td")[0];
+        team = tr[i].getElementsByTagName("td")[1];
+        
+        if (player) {
+          txtValue = player.textContent || player.innerText;
+          teamTxt = team.textContent || team.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else if (teamTxt.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
     </script>
     <script>
     function myFunction() {
@@ -70,10 +110,10 @@
               <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="table.html">View League Table</a>
+              <a class="nav-link" href="table.php">View League Table</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="stats.html">View Statistics</a>
+              <a class="nav-link" href="stats.php">View Statistics</a>
             </li>
           </ul>
           <a href = "login.html"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button></a>
@@ -123,7 +163,11 @@
               $query2->execute();
               $schoolName = $query2->fetch(PDO::FETCH_ASSOC)["name"];
               $teamName = $schoolName." ".$suffix;
-              echo "<tr>";
+              if ($player["active"] == "0") {
+                echo "<tr class = 'inactive'>";
+              } else {
+                echo "<tr>";
+              }
               echo "<td>".$playerName."</td>";
               echo "<td>".$teamName."</td>";
               echo "<td>".$goals."</td>";
@@ -151,7 +195,11 @@
               $query2->execute();
               $schoolName = $query2->fetch(PDO::FETCH_ASSOC)["name"];
               $teamName = $schoolName." ".$suffix;
-              echo "<tr>";
+              if ($player["active"] == "0") {
+                echo "<tr class = 'inactive'>";
+              } else {
+                echo "<tr>";
+              }
               echo "<td>".$playerName."</td>";
               echo "<td>".$teamName."</td>";
               echo "<td>".$assists."</td>";
@@ -179,7 +227,11 @@
               $query2->execute();
               $schoolName = $query2->fetch(PDO::FETCH_ASSOC)["name"];
               $teamName = $schoolName." ".$suffix;
-              echo "<tr>";
+              if ($player["active"] == "0") {
+                echo "<tr class = 'inactive'>";
+              } else {
+                echo "<tr>";
+              }
               echo "<td>".$playerName."</td>";
               echo "<td>".$teamName."</td>";
               echo "<td>".$mp."</td>";
@@ -207,7 +259,11 @@
               $query2->execute();
               $schoolName = $query2->fetch(PDO::FETCH_ASSOC)["name"];
               $teamName = $schoolName." ".$suffix;
-              echo "<tr>";
+              if ($player["active"] == "0") {
+                echo "<tr class = 'inactive'>";
+              } else {
+                echo "<tr>";
+              }
               echo "<td>".$playerName."</td>";
               echo "<td>".$teamName."</td>";
               echo "<td>".$motm."</td>";
@@ -217,6 +273,7 @@
         </table>
         <table id="5">
           <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+          <input type="checkbox" id = "active" name="active" value="active"> Show only active players<br>
           <tr><th>Player Name</th><th>Team</th><th>Goals</th><th>Assists</th><th>Minutes Played</th><th>Man of the Match Awards</th></tr>
           <?php
             $stmt = $conn->prepare("SELECT * FROM players");
@@ -239,7 +296,11 @@
               $query2->execute();
               $schoolName = $query2->fetch(PDO::FETCH_ASSOC)["name"];
               $teamName = $schoolName." ".$suffix;
-              echo "<tr>";
+              if ($player["active"] == "0") {
+                echo "<tr class = 'inactive'>";
+              } else {
+                echo "<tr>";
+              }
               echo "<td>".$playerName."</td>";
               echo "<td>".$teamName."</td>";
               echo "<td>".$goals."</td>";

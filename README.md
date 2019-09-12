@@ -1,21 +1,21 @@
-[![A level coursework](https://img.shields.io/badge/A--level-coursework-blue.svg)](https://www.ocr.org.uk/Images/170845-specification-accredited-as-level-gce-computer-science-h046.pdf)
 [![PHP](https://img.shields.io/badge/language-lots%20of%20php-success.svg)](https://www.python.org/)
-![Build Failing](https://img.shields.io/badge/build-failing-critical.svg)
+![Build Passing](https://img.shields.io/badge/build-passing-blueviolet.svg)
+![Success Criteria Failing](https://img.shields.io/badge/success--criteria-failing-critical.svg)
 
-# waterpololeaguecoursework
+# waterpololeague
 
-Website built for my A-level coursework.
+Website built for my water polo team
 Website manages the East Midlands Independent Schools water polo league.
 Being built using HTML, CSS and a lot of PHP.
 
 ## 🚀 Todo
 - [x] Homepage
 - [x] Login
-- [ ] Contact Page
-- [ ] Generate Test Data
+- [x] Generate Test Data
+- [x] Contact Page
+- [x] Table Page
+- [x] Stats Page
 - [ ] Fixture Viewing
-- [ ] Table Page
-- [ ] Stats Page
 - [ ] Player Page
 - [ ] Coach Page
 - [ ] Admin Page

@@ -2,7 +2,7 @@
 ![Build Passing](https://img.shields.io/badge/build-passing-blueviolet.svg)
 ![Success Criteria Failing](https://img.shields.io/badge/success--criteria-failing-critical.svg)
 
-# waterpololeaguecoursework
+# waterpololeague
 
 Website built for my water polo team
 Website manages the East Midlands Independent Schools water polo league.
